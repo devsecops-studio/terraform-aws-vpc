@@ -8,15 +8,11 @@ locals {
 resource "aws_subnet" "lb_internal" {
   count = local.create_lb_internal_subnets ? local.len_lb_internal_subnets : 0
 
-  assign_ipv6_address_on_creation                = var.enable_ipv6 && var.lb_internal_subnet_ipv6_native ? true : var.lb_internal_subnet_assign_ipv6_address_on_creation
   availability_zone                              = length(regexall("^[a-z]{2}-", element(local.azs, count.index))) > 0 ? element(local.azs, count.index) : null
   availability_zone_id                           = length(regexall("^[a-z]{2}-", element(local.azs, count.index))) == 0 ? element(local.azs, count.index) : null
-  cidr_block                                     = var.lb_internal_subnet_ipv6_native ? null : element(concat(local.lb_internal_subnets, [""]), count.index)
-  enable_dns64                                   = var.enable_ipv6 && var.lb_internal_subnet_enable_dns64
-  enable_resource_name_dns_aaaa_record_on_launch = var.enable_ipv6 && var.lb_internal_subnet_enable_resource_name_dns_aaaa_record_on_launch
-  enable_resource_name_dns_a_record_on_launch    = !var.lb_internal_subnet_ipv6_native && var.lb_internal_subnet_enable_resource_name_dns_a_record_on_launch
+  cidr_block                                     = element(concat(local.lb_internal_subnets, [""]), count.index)
+  enable_resource_name_dns_a_record_on_launch    = var.lb_internal_subnet_enable_resource_name_dns_a_record_on_launch
   ipv6_cidr_block                                = var.enable_ipv6 && length(var.lb_internal_subnet_ipv6_prefixes) > 0 ? cidrsubnet(aws_vpc.this[0].ipv6_cidr_block, 8, var.lb_internal_subnet_ipv6_prefixes[count.index]) : null
-  ipv6_native                                    = var.enable_ipv6 && var.lb_internal_subnet_ipv6_native
   private_dns_hostname_type_on_launch            = var.private_dns_hostname_type_on_launch
   vpc_id = local.vpc_id
 

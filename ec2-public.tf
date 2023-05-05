@@ -8,12 +8,9 @@ locals {
 resource "aws_subnet" "ec2_public" {
   count = local.create_ec2_public_subnets && (!var.one_nat_gateway_per_az || local.len_ec2_public_subnets >= length(local.azs)) ? local.len_ec2_public_subnets : 0
 
-  assign_ipv6_address_on_creation                = var.ec2_public_subnet_assign_ipv6_address_on_creation
   availability_zone                              = length(regexall("^[a-z]{2}-", element(local.azs, count.index))) > 0 ? element(local.azs, count.index) : null
   availability_zone_id                           = length(regexall("^[a-z]{2}-", element(local.azs, count.index))) == 0 ? element(local.azs, count.index) : null
   cidr_block                                     = element(concat(local.ec2_public_subnets, [""]), count.index)
-  enable_dns64                                   = var.enable_ipv6 && var.ec2_public_subnet_enable_dns64
-  enable_resource_name_dns_aaaa_record_on_launch = var.enable_ipv6 && var.ec2_public_subnet_enable_resource_name_dns_aaaa_record_on_launch
   enable_resource_name_dns_a_record_on_launch    = var.ec2_public_subnet_enable_resource_name_dns_a_record_on_launch
   ipv6_cidr_block                                = var.enable_ipv6 && length(var.ec2_public_subnet_ipv6_prefixes) > 0 ? cidrsubnet(aws_vpc.this[0].ipv6_cidr_block, 8, var.ec2_public_subnet_ipv6_prefixes[count.index]) : null
   map_public_ip_on_launch                        = var.map_public_ip_on_ec2_launched
