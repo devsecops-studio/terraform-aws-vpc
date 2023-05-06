@@ -1,51 +1,47 @@
-# locals {
-#   redshift_route_table_ids = aws_route_table.redshift[*].id
-#   public_route_table_ids   = aws_route_table.public[*].id
-#   private_route_table_ids  = aws_route_table.private[*].id
-# }
+locals {
+  public_route_table_ids      = aws_route_table.public[*].id
+  private_route_table_ids     = aws_route_table.private[*].id
+  ec2_public_route_table_ids  = try(aws_route_table.ec2_public[*].id, null)
+  ec2_private_route_table_ids = try(aws_route_table.ec2_private[*].id, null)
+}
 
 # ################################################################################
 # # VPC
 # ################################################################################
 
-# output "vpc_id" {
-#   description = "The ID of the VPC"
-#   value       = try(aws_vpc.this[0].id, null)
-# }
+output "vpc_id" {
+  description = "The ID of the VPC"
+  value       = try(aws_vpc.this[0].id, null)
+}
 
-# output "vpc_arn" {
-#   description = "The ARN of the VPC"
-#   value       = try(aws_vpc.this[0].arn, null)
-# }
+output "vpc_arn" {
+  description = "The ARN of the VPC"
+  value       = try(aws_vpc.this[0].arn, null)
+}
 
-# output "vpc_cidr_block" {
-#   description = "The CIDR block of the VPC"
-#   value       = try(aws_vpc.this[0].cidr_block, null)
-# }
+output "vpc_cidr_block" {
+  description = "The CIDR block of the VPC"
+  value       = try(aws_vpc.this[0].cidr_block, null)
+}
 
-# output "default_security_group_id" {
-#   description = "The ID of the security group created by default on VPC creation"
-#   value       = try(aws_vpc.this[0].default_security_group_id, null)
-# }
+output "default_security_group_id" {
+  description = "The ID of the security group created by default on VPC creation"
+  value       = try(aws_vpc.this[0].default_security_group_id, null)
+}
 
-# output "default_network_acl_id" {
-#   description = "The ID of the default network ACL"
-#   value       = try(aws_vpc.this[0].default_network_acl_id, null)
-# }
+output "default_network_acl_id" {
+  description = "The ID of the default network ACL"
+  value       = try(aws_vpc.this[0].default_network_acl_id, null)
+}
 
-# output "default_route_table_id" {
-#   description = "The ID of the default route table"
-#   value       = try(aws_vpc.this[0].default_route_table_id, null)
-# }
+output "default_route_table_id" {
+  description = "The ID of the default route table"
+  value       = try(aws_vpc.this[0].default_route_table_id, null)
+}
 
 # output "vpc_instance_tenancy" {
 #   description = "Tenancy of instances spin up within VPC"
 #   value       = try(aws_vpc.this[0].instance_tenancy, null)
-# }
-
-# output "vpc_enable_dns_support" {
-#   description = "Whether or not the VPC has DNS support"
-#   value       = try(aws_vpc.this[0].enable_dns_support, null)
 # }
 
 # output "vpc_enable_dns_hostnames" {
@@ -53,30 +49,20 @@
 #   value       = try(aws_vpc.this[0].enable_dns_hostnames, null)
 # }
 
-# output "vpc_main_route_table_id" {
-#   description = "The ID of the main route table associated with this VPC"
-#   value       = try(aws_vpc.this[0].main_route_table_id, null)
-# }
+output "vpc_main_route_table_id" {
+  description = "The ID of the main route table associated with this VPC"
+  value       = try(aws_vpc.this[0].main_route_table_id, null)
+}
 
-# output "vpc_ipv6_association_id" {
-#   description = "The association ID for the IPv6 CIDR block"
-#   value       = try(aws_vpc.this[0].ipv6_association_id, null)
-# }
+output "vpc_secondary_cidr_blocks" {
+  description = "List of secondary CIDR blocks of the VPC"
+  value       = compact(aws_vpc_ipv4_cidr_block_association.this[*].cidr_block)
+}
 
-# output "vpc_ipv6_cidr_block" {
-#   description = "The IPv6 CIDR block"
-#   value       = try(aws_vpc.this[0].ipv6_cidr_block, null)
-# }
-
-# output "vpc_secondary_cidr_blocks" {
-#   description = "List of secondary CIDR blocks of the VPC"
-#   value       = compact(aws_vpc_ipv4_cidr_block_association.this[*].cidr_block)
-# }
-
-# output "vpc_owner_id" {
-#   description = "The ID of the AWS account that owns the VPC"
-#   value       = try(aws_vpc.this[0].owner_id, null)
-# }
+output "vpc_owner_id" {
+  description = "The ID of the AWS account that owns the VPC"
+  value       = try(aws_vpc.this[0].owner_id, null)
+}
 
 # ################################################################################
 # # DHCP Options Set
@@ -102,58 +88,38 @@
 # }
 
 # ################################################################################
-# # Publiс Subnets
+# # EC2 Publiс Subnets
 # ################################################################################
 
-# output "public_subnets" {
-#   description = "List of IDs of public subnets"
-#   value       = aws_subnet.public[*].id
-# }
+output "ec2_public_subnets" {
+  description = "List of IDs of EC2 public subnets"
+  value       = aws_subnet.ec2_public[*].id
+}
 
-# output "public_subnet_arns" {
-#   description = "List of ARNs of public subnets"
-#   value       = aws_subnet.public[*].arn
-# }
+output "ec2_public_subnet_arns" {
+  description = "List of ARNs of EC2 public subnets"
+  value       = aws_subnet.ec2_public[*].arn
+}
 
-# output "public_subnets_cidr_blocks" {
-#   description = "List of cidr_blocks of public subnets"
-#   value       = compact(aws_subnet.public[*].cidr_block)
-# }
+output "ec2_public_subnets_cidr_blocks" {
+  description = "List of cidr_blocks of EC2 public subnets"
+  value       = compact(aws_subnet.ec2_public[*].cidr_block)
+}
 
-# output "public_subnets_ipv6_cidr_blocks" {
-#   description = "List of IPv6 cidr_blocks of public subnets in an IPv6 enabled VPC"
-#   value       = compact(aws_subnet.public[*].ipv6_cidr_block)
-# }
+output "ec2_public_route_table_ids" {
+  description = "List of IDs of EC2 public route tables"
+  value       = local.ec2_public_route_table_ids
+}
 
-# output "public_route_table_ids" {
-#   description = "List of IDs of public route tables"
-#   value       = local.public_route_table_ids
-# }
+output "ec2_public_network_acl_id" {
+  description = "ID of the EC2 public network ACL"
+  value       = try(aws_network_acl.ec2_public[0].id, null)
+}
 
-# output "public_internet_gateway_route_id" {
-#   description = "ID of the internet gateway route"
-#   value       = try(aws_route.public_internet_gateway[0].id, null)
-# }
-
-# output "public_internet_gateway_ipv6_route_id" {
-#   description = "ID of the IPv6 internet gateway route"
-#   value       = try(aws_route.public_internet_gateway_ipv6[0].id, null)
-# }
-
-# output "public_route_table_association_ids" {
-#   description = "List of IDs of the public route table association"
-#   value       = aws_route_table_association.public[*].id
-# }
-
-# output "public_network_acl_id" {
-#   description = "ID of the public network ACL"
-#   value       = try(aws_network_acl.public[0].id, null)
-# }
-
-# output "public_network_acl_arn" {
-#   description = "ARN of the public network ACL"
-#   value       = try(aws_network_acl.public[0].arn, null)
-# }
+output "ec2_public_network_acl_arn" {
+  description = "ARN of the EC2 public network ACL"
+  value       = try(aws_network_acl.ec2_public[0].arn, null)
+}
 
 # ################################################################################
 # # Private Subnets
@@ -207,40 +173,6 @@
 # output "private_network_acl_arn" {
 #   description = "ARN of the private network ACL"
 #   value       = try(aws_network_acl.private[0].arn, null)
-# }
-
-# ################################################################################
-# # Outpost Subnets
-# ################################################################################
-
-# output "outpost_subnets" {
-#   description = "List of IDs of outpost subnets"
-#   value       = aws_subnet.outpost[*].id
-# }
-
-# output "outpost_subnet_arns" {
-#   description = "List of ARNs of outpost subnets"
-#   value       = aws_subnet.outpost[*].arn
-# }
-
-# output "outpost_subnets_cidr_blocks" {
-#   description = "List of cidr_blocks of outpost subnets"
-#   value       = compact(aws_subnet.outpost[*].cidr_block)
-# }
-
-# output "outpost_subnets_ipv6_cidr_blocks" {
-#   description = "List of IPv6 cidr_blocks of outpost subnets in an IPv6 enabled VPC"
-#   value       = compact(aws_subnet.outpost[*].ipv6_cidr_block)
-# }
-
-# output "outpost_network_acl_id" {
-#   description = "ID of the outpost network ACL"
-#   value       = try(aws_network_acl.outpost[0].id, null)
-# }
-
-# output "outpost_network_acl_arn" {
-#   description = "ARN of the outpost network ACL"
-#   value       = try(aws_network_acl.outpost[0].arn, null)
 # }
 
 # ################################################################################
@@ -313,60 +245,6 @@
 # }
 
 # ################################################################################
-# # Redshift Subnets
-# ################################################################################
-
-# output "redshift_subnets" {
-#   description = "List of IDs of redshift subnets"
-#   value       = aws_subnet.redshift[*].id
-# }
-
-# output "redshift_subnet_arns" {
-#   description = "List of ARNs of redshift subnets"
-#   value       = aws_subnet.redshift[*].arn
-# }
-
-# output "redshift_subnets_cidr_blocks" {
-#   description = "List of cidr_blocks of redshift subnets"
-#   value       = compact(aws_subnet.redshift[*].cidr_block)
-# }
-
-# output "redshift_subnets_ipv6_cidr_blocks" {
-#   description = "List of IPv6 cidr_blocks of redshift subnets in an IPv6 enabled VPC"
-#   value       = compact(aws_subnet.redshift[*].ipv6_cidr_block)
-# }
-
-# output "redshift_subnet_group" {
-#   description = "ID of redshift subnet group"
-#   value       = try(aws_redshift_subnet_group.redshift[0].id, null)
-# }
-
-# output "redshift_route_table_ids" {
-#   description = "List of IDs of redshift route tables"
-#   value       = length(local.redshift_route_table_ids) > 0 ? local.redshift_route_table_ids : (var.enable_public_redshift ? local.public_route_table_ids : local.private_route_table_ids)
-# }
-
-# output "redshift_route_table_association_ids" {
-#   description = "List of IDs of the redshift route table association"
-#   value       = aws_route_table_association.redshift[*].id
-# }
-
-# output "redshift_public_route_table_association_ids" {
-#   description = "List of IDs of the public redshift route table association"
-#   value       = aws_route_table_association.redshift_public[*].id
-# }
-
-# output "redshift_network_acl_id" {
-#   description = "ID of the redshift network ACL"
-#   value       = try(aws_network_acl.redshift[0].id, null)
-# }
-
-# output "redshift_network_acl_arn" {
-#   description = "ARN of the redshift network ACL"
-#   value       = try(aws_network_acl.redshift[0].arn, null)
-# }
-
-# ################################################################################
 # # Elasticache Subnets
 # ################################################################################
 
@@ -421,67 +299,23 @@
 # }
 
 # ################################################################################
-# # Intra Subnets
-# ################################################################################
-
-# output "intra_subnets" {
-#   description = "List of IDs of intra subnets"
-#   value       = aws_subnet.intra[*].id
-# }
-
-# output "intra_subnet_arns" {
-#   description = "List of ARNs of intra subnets"
-#   value       = aws_subnet.intra[*].arn
-# }
-
-# output "intra_subnets_cidr_blocks" {
-#   description = "List of cidr_blocks of intra subnets"
-#   value       = compact(aws_subnet.intra[*].cidr_block)
-# }
-
-# output "intra_subnets_ipv6_cidr_blocks" {
-#   description = "List of IPv6 cidr_blocks of intra subnets in an IPv6 enabled VPC"
-#   value       = compact(aws_subnet.intra[*].ipv6_cidr_block)
-# }
-
-# output "intra_route_table_ids" {
-#   description = "List of IDs of intra route tables"
-#   value       = aws_route_table.intra[*].id
-# }
-
-# output "intra_route_table_association_ids" {
-#   description = "List of IDs of the intra route table association"
-#   value       = aws_route_table_association.intra[*].id
-# }
-
-# output "intra_network_acl_id" {
-#   description = "ID of the intra network ACL"
-#   value       = try(aws_network_acl.intra[0].id, null)
-# }
-
-# output "intra_network_acl_arn" {
-#   description = "ARN of the intra network ACL"
-#   value       = try(aws_network_acl.intra[0].arn, null)
-# }
-
-# ################################################################################
 # # NAT Gateway
 # ################################################################################
 
-# output "nat_ids" {
-#   description = "List of allocation ID of Elastic IPs created for AWS NAT Gateway"
-#   value       = aws_eip.nat[*].id
-# }
+output "nat_ids" {
+  description = "List of allocation ID of Elastic IPs created for AWS NAT Gateway"
+  value       = aws_eip.nat[*].id
+}
 
-# output "nat_public_ips" {
-#   description = "List of public Elastic IPs created for AWS NAT Gateway"
-#   value       = var.reuse_nat_ips ? var.external_nat_ips : aws_eip.nat[*].public_ip
-# }
+output "nat_public_ips" {
+  description = "List of public Elastic IPs created for AWS NAT Gateway"
+  value       = var.reuse_nat_ips ? var.external_nat_ips : aws_eip.nat[*].public_ip
+}
 
-# output "natgw_ids" {
-#   description = "List of NAT Gateway IDs"
-#   value       = aws_nat_gateway.this[*].id
-# }
+output "natgw_ids" {
+  description = "List of NAT Gateway IDs"
+  value       = aws_nat_gateway.this[*].id
+}
 
 # ################################################################################
 # # Egress Only Gateway
@@ -607,12 +441,12 @@
 # # Static values (arguments)
 # ################################################################################
 
-# output "azs" {
-#   description = "A list of availability zones specified as argument to this module"
-#   value       = local.azs
-# }
+output "azs" {
+  description = "A list of availability zones specified as argument to this module"
+  value       = local.azs
+}
 
-# output "name" {
-#   description = "The name of the VPC specified as argument to this module"
-#   value       = var.name
-# }
+output "name" {
+  description = "The name of the VPC specified as argument to this module"
+  value       = var.name
+}
