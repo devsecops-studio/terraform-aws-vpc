@@ -2,6 +2,12 @@
 
 Terraform module which creates VPC resources on AWS.
 
+- Run command below whenever update a module to update the document
+
+  ```bash
+  terraform-docs markdown table --output-file README.md --output-mode inject ./
+  ```
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -314,5 +320,32 @@ Terraform module which creates VPC resources on AWS.
 
 ## Outputs
 
-No outputs.
+| Name | Description |
+|------|-------------|
+| <a name="output_azs"></a> [azs](#output\_azs) | A list of availability zones specified as argument to this module |
+| <a name="output_default_network_acl_id"></a> [default\_network\_acl\_id](#output\_default\_network\_acl\_id) | The ID of the default network ACL |
+| <a name="output_default_route_table_id"></a> [default\_route\_table\_id](#output\_default\_route\_table\_id) | The ID of the default route table |
+| <a name="output_default_security_group_id"></a> [default\_security\_group\_id](#output\_default\_security\_group\_id) | The ID of the security group created by default on VPC creation |
+| <a name="output_ec2_private_network_acl_arn"></a> [ec2\_private\_network\_acl\_arn](#output\_ec2\_private\_network\_acl\_arn) | ARN of the EC2 private network ACL |
+| <a name="output_ec2_private_network_acl_id"></a> [ec2\_private\_network\_acl\_id](#output\_ec2\_private\_network\_acl\_id) | ID of the EC2 private network ACL |
+| <a name="output_ec2_private_route_table_ids"></a> [ec2\_private\_route\_table\_ids](#output\_ec2\_private\_route\_table\_ids) | List of IDs of EC2 private route tables |
+| <a name="output_ec2_private_subnet_arns"></a> [ec2\_private\_subnet\_arns](#output\_ec2\_private\_subnet\_arns) | List of ARNs of EC2 private subnets |
+| <a name="output_ec2_private_subnets"></a> [ec2\_private\_subnets](#output\_ec2\_private\_subnets) | List of IDs of EC2 private subnets |
+| <a name="output_ec2_private_subnets_cidr_blocks"></a> [ec2\_private\_subnets\_cidr\_blocks](#output\_ec2\_private\_subnets\_cidr\_blocks) | List of cidr\_blocks of EC2 private subnets |
+| <a name="output_ec2_public_network_acl_arn"></a> [ec2\_public\_network\_acl\_arn](#output\_ec2\_public\_network\_acl\_arn) | ARN of the EC2 public network ACL |
+| <a name="output_ec2_public_network_acl_id"></a> [ec2\_public\_network\_acl\_id](#output\_ec2\_public\_network\_acl\_id) | ID of the EC2 public network ACL |
+| <a name="output_ec2_public_route_table_ids"></a> [ec2\_public\_route\_table\_ids](#output\_ec2\_public\_route\_table\_ids) | List of IDs of EC2 public route tables |
+| <a name="output_ec2_public_subnet_arns"></a> [ec2\_public\_subnet\_arns](#output\_ec2\_public\_subnet\_arns) | List of ARNs of EC2 public subnets |
+| <a name="output_ec2_public_subnets"></a> [ec2\_public\_subnets](#output\_ec2\_public\_subnets) | List of IDs of EC2 public subnets |
+| <a name="output_ec2_public_subnets_cidr_blocks"></a> [ec2\_public\_subnets\_cidr\_blocks](#output\_ec2\_public\_subnets\_cidr\_blocks) | List of cidr\_blocks of EC2 public subnets |
+| <a name="output_name"></a> [name](#output\_name) | The name of the VPC specified as argument to this module |
+| <a name="output_nat_ids"></a> [nat\_ids](#output\_nat\_ids) | List of allocation ID of Elastic IPs created for AWS NAT Gateway |
+| <a name="output_nat_public_ips"></a> [nat\_public\_ips](#output\_nat\_public\_ips) | List of public Elastic IPs created for AWS NAT Gateway |
+| <a name="output_natgw_ids"></a> [natgw\_ids](#output\_natgw\_ids) | List of NAT Gateway IDs |
+| <a name="output_vpc_arn"></a> [vpc\_arn](#output\_vpc\_arn) | The ARN of the VPC |
+| <a name="output_vpc_cidr_block"></a> [vpc\_cidr\_block](#output\_vpc\_cidr\_block) | The CIDR block of the VPC |
+| <a name="output_vpc_id"></a> [vpc\_id](#output\_vpc\_id) | The ID of the VPC |
+| <a name="output_vpc_main_route_table_id"></a> [vpc\_main\_route\_table\_id](#output\_vpc\_main\_route\_table\_id) | The ID of the main route table associated with this VPC |
+| <a name="output_vpc_owner_id"></a> [vpc\_owner\_id](#output\_vpc\_owner\_id) | The ID of the AWS account that owns the VPC |
+| <a name="output_vpc_secondary_cidr_blocks"></a> [vpc\_secondary\_cidr\_blocks](#output\_vpc\_secondary\_cidr\_blocks) | List of secondary CIDR blocks of the VPC |
 <!-- END_TF_DOCS -->
