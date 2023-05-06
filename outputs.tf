@@ -111,15 +111,15 @@ output "ec2_public_route_table_ids" {
   value       = local.ec2_public_route_table_ids
 }
 
-output "ec2_public_network_acl_id" {
-  description = "ID of the EC2 public network ACL"
-  value       = try(aws_network_acl.ec2_public[0].id, null)
-}
+# output "ec2_public_network_acl_id" {
+#   description = "ID of the EC2 public network ACL"
+#   value       = try(aws_network_acl.ec2_public[0].id, null)
+# }
 
-output "ec2_public_network_acl_arn" {
-  description = "ARN of the EC2 public network ACL"
-  value       = try(aws_network_acl.ec2_public[0].arn, null)
-}
+# output "ec2_public_network_acl_arn" {
+#   description = "ARN of the EC2 public network ACL"
+#   value       = try(aws_network_acl.ec2_public[0].arn, null)
+# }
 
 # ################################################################################
 # # EC2 Private Subnets
@@ -145,15 +145,15 @@ output "ec2_private_route_table_ids" {
   value       = local.ec2_private_route_table_ids
 }
 
-output "ec2_private_network_acl_id" {
-  description = "ID of the EC2 private network ACL"
-  value       = try(aws_network_acl.ec2_private[0].id, null)
-}
+# output "ec2_private_network_acl_id" {
+#   description = "ID of the EC2 private network ACL"
+#   value       = try(aws_network_acl.ec2_private[0].id, null)
+# }
 
-output "ec2_private_network_acl_arn" {
-  description = "ARN of the EC2 private network ACL"
-  value       = try(aws_network_acl.ec2_private[0].arn, null)
-}
+# output "ec2_private_network_acl_arn" {
+#   description = "ARN of the EC2 private network ACL"
+#   value       = try(aws_network_acl.ec2_private[0].arn, null)
+# }
 
 # ################################################################################
 # # Database Subnets

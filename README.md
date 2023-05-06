@@ -326,14 +326,10 @@ Terraform module which creates VPC resources on AWS.
 | <a name="output_default_network_acl_id"></a> [default\_network\_acl\_id](#output\_default\_network\_acl\_id) | The ID of the default network ACL |
 | <a name="output_default_route_table_id"></a> [default\_route\_table\_id](#output\_default\_route\_table\_id) | The ID of the default route table |
 | <a name="output_default_security_group_id"></a> [default\_security\_group\_id](#output\_default\_security\_group\_id) | The ID of the security group created by default on VPC creation |
-| <a name="output_ec2_private_network_acl_arn"></a> [ec2\_private\_network\_acl\_arn](#output\_ec2\_private\_network\_acl\_arn) | ARN of the EC2 private network ACL |
-| <a name="output_ec2_private_network_acl_id"></a> [ec2\_private\_network\_acl\_id](#output\_ec2\_private\_network\_acl\_id) | ID of the EC2 private network ACL |
 | <a name="output_ec2_private_route_table_ids"></a> [ec2\_private\_route\_table\_ids](#output\_ec2\_private\_route\_table\_ids) | List of IDs of EC2 private route tables |
 | <a name="output_ec2_private_subnet_arns"></a> [ec2\_private\_subnet\_arns](#output\_ec2\_private\_subnet\_arns) | List of ARNs of EC2 private subnets |
 | <a name="output_ec2_private_subnets"></a> [ec2\_private\_subnets](#output\_ec2\_private\_subnets) | List of IDs of EC2 private subnets |
 | <a name="output_ec2_private_subnets_cidr_blocks"></a> [ec2\_private\_subnets\_cidr\_blocks](#output\_ec2\_private\_subnets\_cidr\_blocks) | List of cidr\_blocks of EC2 private subnets |
-| <a name="output_ec2_public_network_acl_arn"></a> [ec2\_public\_network\_acl\_arn](#output\_ec2\_public\_network\_acl\_arn) | ARN of the EC2 public network ACL |
-| <a name="output_ec2_public_network_acl_id"></a> [ec2\_public\_network\_acl\_id](#output\_ec2\_public\_network\_acl\_id) | ID of the EC2 public network ACL |
 | <a name="output_ec2_public_route_table_ids"></a> [ec2\_public\_route\_table\_ids](#output\_ec2\_public\_route\_table\_ids) | List of IDs of EC2 public route tables |
 | <a name="output_ec2_public_subnet_arns"></a> [ec2\_public\_subnet\_arns](#output\_ec2\_public\_subnet\_arns) | List of ARNs of EC2 public subnets |
 | <a name="output_ec2_public_subnets"></a> [ec2\_public\_subnets](#output\_ec2\_public\_subnets) | List of IDs of EC2 public subnets |
