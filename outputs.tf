@@ -156,6 +156,40 @@ output "ec2_private_route_table_ids" {
 # }
 
 # ################################################################################
+# # ECS Subnets
+# ################################################################################
+
+output "ecs_subnets" {
+  description = "List of IDs of ECS subnets"
+  value       = aws_subnet.ecs[*].id
+}
+
+output "ecs_subnet_arns" {
+  description = "List of ARNs of ECS subnets"
+  value       = aws_subnet.ecs[*].arn
+}
+
+output "ecs_subnets_cidr_blocks" {
+  description = "List of cidr_blocks of ECS subnets"
+  value       = compact(aws_subnet.ecs[*].cidr_block)
+}
+
+output "ecs_route_table_ids" {
+  description = "List of IDs of ECS route tables"
+  value       = local.ecs_route_table_ids
+}
+
+# output "ecs_network_acl_id" {
+#   description = "ID of the ECS network ACL"
+#   value       = try(aws_network_acl.ecs[0].id, null)
+# }
+
+# output "ecs_network_acl_arn" {
+#   description = "ARN of the EC2 private network ACL"
+#   value       = try(aws_network_acl.ecs[0].arn, null)
+# }
+
+# ################################################################################
 # # Database Subnets
 # ################################################################################
 
