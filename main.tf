@@ -120,7 +120,7 @@ resource "aws_route" "public" {
 ################################################################################
 
 resource "aws_route_table" "private" {
-  count = local.max_subnet_length > 0 ? local.nat_gateway_count > 0 ? loca.nat_gateway_count : 1 : 0
+  count = local.max_subnet_length > 0 ? local.nat_gateway_count > 0 ? local.nat_gateway_count : 1 : 0
 
   vpc_id = local.vpc_id
 
