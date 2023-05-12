@@ -156,7 +156,7 @@ resource "aws_internet_gateway" "this" {
 ################################################################################
 
 locals {
-  nat_gateway_count = var.single_nat_gateway ? 1 : var.one_nat_gateway_per_az ? length(local.azs) : !var.create_lb_internal_subnets && !var.create_ec2_private_subnets && !var.create_others_private_subnets && !var.create_ecs_subnets && (!var.create_db_subnets || (var.create_db_subnets && !var.create_db_nat_gateway_route)) && (!var.create_cache_subnets || (var.create_cache_subnets && !var.create_cache_nat_gateway_route)) && !var.create_eks_subnets ? 0 : local.max_subnet_length
+  nat_gateway_count = var.single_nat_gateway ? 1 : var.one_nat_gateway_per_az ? length(local.azs) : !var.create_ec2_private_subnets && !var.create_others_private_subnets && !var.create_ecs_subnets && (!var.create_db_subnets || (var.create_db_subnets && !var.create_db_nat_gateway_route)) && (!var.create_cache_subnets || (var.create_cache_subnets && !var.create_cache_nat_gateway_route)) && !var.create_eks_subnets ? 0 : local.max_subnet_length
   nat_gateway_ips   = var.reuse_nat_ips ? var.external_nat_ip_ids : try(aws_eip.nat[*].id, [])
 }
 
