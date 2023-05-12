@@ -39,8 +39,6 @@ resource "aws_vpc" "this" {
   cidr_block = local.cidr
 
   # TODO support IPv6
-  # assign_generated_ipv6_cidr_block = var.enable_ipv6 ? true : null
-  # ipv6_cidr_block                  = var.ipv6_cidr
 
   instance_tenancy                     = var.instance_tenancy
   enable_dns_hostnames                 = var.enable_dns_hostnames
@@ -153,32 +151,12 @@ resource "aws_internet_gateway" "this" {
   )
 }
 
-resource "aws_egress_only_internet_gateway" "this" {
-  count = local.create_vpc && var.create_egress_only_igw && var.enable_ipv6 && local.max_subnet_length > 0 ? 1 : 0
-
-  vpc_id = local.vpc_id
-
-  tags = merge(
-    { "Name" = var.name },
-    var.tags,
-    var.igw_tags,
-  )
-}
-
-resource "aws_route" "private_ipv6_egress" {
-  count = local.create_vpc && var.create_egress_only_igw && var.enable_ipv6 ? local.len_lb_internal_subnets : 0
-
-  route_table_id              = element(aws_route_table.lb_internal[*].id, count.index)
-  destination_ipv6_cidr_block = "::/0"
-  egress_only_gateway_id      = element(aws_egress_only_internet_gateway.this[*].id, 0)
-}
-
 ################################################################################
 # NAT Gateway
 ################################################################################
 
 locals {
-  nat_gateway_count = var.single_nat_gateway ? 1 : var.one_nat_gateway_per_az ? length(local.azs) : local.max_subnet_length
+  nat_gateway_count = var.single_nat_gateway ? 1 : var.one_nat_gateway_per_az ? length(local.azs) : !var.create_lb_internal_subnets && !var.create_ec2_private_subnets && !var.create_others_private_subnets && !var.create_ecs_subnets && (!var.create_db_subnets || (var.create_db_subnets && !var.create_db_nat_gateway_route)) && (!var.create_cache_subnets || (var.create_cache_subnets && !var.create_cache_nat_gateway_route)) && !var.create_eks_subnets ? 0 : local.max_subnet_length
   nat_gateway_ips   = var.reuse_nat_ips ? var.external_nat_ip_ids : try(aws_eip.nat[*].id, [])
 }
 

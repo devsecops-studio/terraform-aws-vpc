@@ -1,7 +1,7 @@
 locals {
   ec2_private_subnets        = [for suffix in local.cidr_configs.ec2_private : format("%s.%s", var.cidr_prefix, suffix)]
-  len_ec2_private_subnets    = max(length(local.ec2_private_subnets), length(var.ec2_private_subnet_ipv6_prefixes))
-  create_ec2_private_subnets = local.create_vpc && local.len_ec2_private_subnets > 0
+  len_ec2_private_subnets    = length(local.ec2_private_subnets)
+  create_ec2_private_subnets = local.create_vpc && var.create_ec2_private_subnets && local.len_ec2_private_subnets > 0
   create_ec2_private_route_table = local.create_ec2_private_subnets && var.create_ec2_private_subnet_route_table
 }
 
@@ -12,7 +12,6 @@ resource "aws_subnet" "ec2_private" {
   availability_zone_id                           = length(regexall("^[a-z]{2}-", element(local.azs, count.index))) == 0 ? element(local.azs, count.index) : null
   cidr_block                                     = element(concat(local.ec2_private_subnets, [""]), count.index)
   enable_resource_name_dns_a_record_on_launch    = var.ec2_private_subnet_enable_resource_name_dns_a_record_on_launch
-  ipv6_cidr_block                                = var.enable_ipv6 && length(var.ec2_private_subnet_ipv6_prefixes) > 0 ? cidrsubnet(aws_vpc.this[0].ipv6_cidr_block, 8, var.ec2_private_subnet_ipv6_prefixes[count.index]) : null
   map_public_ip_on_launch                        = var.map_public_ip_on_ec2_launched
   private_dns_hostname_type_on_launch            = var.private_dns_hostname_type_on_launch
   vpc_id                                         = local.vpc_id

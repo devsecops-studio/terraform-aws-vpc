@@ -1,7 +1,7 @@
 locals {
   cache_subnets            = [for suffix in local.cidr_configs.cache : format("%s.%s", var.cidr_prefix, suffix)]
-  len_cache_subnets        = max(length(local.cache_subnets), length(var.cache_subnet_ipv6_prefixes))
-  create_cache_subnets     = local.create_vpc && local.len_cache_subnets > 0
+  len_cache_subnets        = length(local.cache_subnets)
+  create_cache_subnets     = local.create_vpc && var.create_cache_subnets && local.len_cache_subnets > 0
   create_cache_route_table = local.create_cache_subnets && var.create_cache_subnet_route_table
 }
 
@@ -12,7 +12,6 @@ resource "aws_subnet" "cache" {
   availability_zone_id                           = length(regexall("^[a-z]{2}-", element(local.azs, count.index))) == 0 ? element(local.azs, count.index) : null
   cidr_block                                     = element(concat(local.cache_subnets, [""]), count.index)
   enable_resource_name_dns_a_record_on_launch    = var.cache_subnet_enable_resource_name_dns_a_record_on_launch
-  ipv6_cidr_block                                = var.enable_ipv6 && length(var.cache_subnet_ipv6_prefixes) > 0 ? cidrsubnet(aws_vpc.this[0].ipv6_cidr_block, 8, var.cache_subnet_ipv6_prefixes[count.index]) : null
   private_dns_hostname_type_on_launch            = var.private_dns_hostname_type_on_launch
   vpc_id                                         = local.vpc_id
 
@@ -60,7 +59,7 @@ resource "aws_route_table" "cache" {
 }
 
 resource "aws_route_table_association" "cache_default" {
-  count = !local.create_cache_route_table && !var.create_cache_internet_gateway_route && !var.create_cache_nat_gateway_route ? local.len_cache_subnets : 0
+  count = local.create_cache_subnets && !local.create_cache_route_table && !var.create_cache_internet_gateway_route && !var.create_cache_nat_gateway_route ? local.len_cache_subnets : 0
 
   subnet_id = element(aws_subnet.cache[*].id, count.index)
   route_table_id = element(

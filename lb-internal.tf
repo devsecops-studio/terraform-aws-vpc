@@ -1,7 +1,7 @@
 locals {
   lb_internal_subnets        = [for suffix in local.cidr_configs.lb_internal : format("%s.%s", var.cidr_prefix, suffix)]
-  len_lb_internal_subnets    = max(length(local.lb_internal_subnets), length(var.lb_internal_subnet_ipv6_prefixes))
-  create_lb_internal_subnets = local.create_vpc && local.len_lb_internal_subnets > 0
+  len_lb_internal_subnets    = length(local.lb_internal_subnets)
+  create_lb_internal_subnets = local.create_vpc && var.create_lb_internal_subnets && local.len_lb_internal_subnets > 0
   create_lb_internal_route_table = local.create_lb_internal_subnets && var.create_lb_internal_subnet_route_table
 }
 
@@ -12,7 +12,6 @@ resource "aws_subnet" "lb_internal" {
   availability_zone_id                           = length(regexall("^[a-z]{2}-", element(local.azs, count.index))) == 0 ? element(local.azs, count.index) : null
   cidr_block                                     = element(concat(local.lb_internal_subnets, [""]), count.index)
   enable_resource_name_dns_a_record_on_launch    = var.lb_internal_subnet_enable_resource_name_dns_a_record_on_launch
-  ipv6_cidr_block                                = var.enable_ipv6 && length(var.lb_internal_subnet_ipv6_prefixes) > 0 ? cidrsubnet(aws_vpc.this[0].ipv6_cidr_block, 8, var.lb_internal_subnet_ipv6_prefixes[count.index]) : null
   private_dns_hostname_type_on_launch            = var.private_dns_hostname_type_on_launch
   vpc_id = local.vpc_id
 

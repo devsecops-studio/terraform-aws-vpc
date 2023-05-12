@@ -1,7 +1,7 @@
 locals {
   eks_subnets            = [for suffix in local.cidr_configs.eks : format("%s.%s", var.cidr_prefix, suffix)]
-  len_eks_subnets        = max(length(local.eks_subnets), length(var.eks_subnet_ipv6_prefixes))
-  create_eks_subnets     = local.create_vpc && local.len_eks_subnets > 0
+  len_eks_subnets        = length(local.eks_subnets)
+  create_eks_subnets     = local.create_vpc && var.create_eks_subnets && local.len_eks_subnets > 0
   create_eks_route_table = local.create_eks_subnets && var.create_eks_subnet_route_table
 }
 
@@ -12,7 +12,6 @@ resource "aws_subnet" "eks" {
   availability_zone_id                           = length(regexall("^[a-z]{2}-", element(local.azs, count.index))) == 0 ? element(local.azs, count.index) : null
   cidr_block                                     = element(concat(local.eks_subnets, [""]), count.index)
   enable_resource_name_dns_a_record_on_launch    = var.eks_subnet_enable_resource_name_dns_a_record_on_launch
-  ipv6_cidr_block                                = var.enable_ipv6 && length(var.eks_subnet_ipv6_prefixes) > 0 ? cidrsubnet(aws_vpc.this[0].ipv6_cidr_block, 8, var.eks_subnet_ipv6_prefixes[count.index]) : null
   map_public_ip_on_launch                        = var.map_public_ip_on_ec2_launched
   private_dns_hostname_type_on_launch            = var.private_dns_hostname_type_on_launch
   vpc_id                                         = local.vpc_id

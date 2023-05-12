@@ -1,7 +1,7 @@
 locals {
   db_subnets            = [for suffix in local.cidr_configs.db : format("%s.%s", var.cidr_prefix, suffix)]
-  len_db_subnets        = max(length(local.db_subnets), length(var.db_subnet_ipv6_prefixes))
-  create_db_subnets     = local.create_vpc && local.len_db_subnets > 0
+  len_db_subnets        = length(local.db_subnets)
+  create_db_subnets     = local.create_vpc && var.create_db_subnets && local.len_db_subnets > 0
   create_db_route_table = local.create_db_subnets && var.create_db_subnet_route_table
 }
 
@@ -12,7 +12,6 @@ resource "aws_subnet" "db" {
   availability_zone_id                           = length(regexall("^[a-z]{2}-", element(local.azs, count.index))) == 0 ? element(local.azs, count.index) : null
   cidr_block                                     = element(concat(local.db_subnets, [""]), count.index)
   enable_resource_name_dns_a_record_on_launch    = var.db_subnet_enable_resource_name_dns_a_record_on_launch
-  ipv6_cidr_block                                = var.enable_ipv6 && length(var.db_subnet_ipv6_prefixes) > 0 ? cidrsubnet(aws_vpc.this[0].ipv6_cidr_block, 8, var.db_subnet_ipv6_prefixes[count.index]) : null
   private_dns_hostname_type_on_launch            = var.private_dns_hostname_type_on_launch
   vpc_id                                         = local.vpc_id
 
@@ -62,7 +61,7 @@ resource "aws_route_table" "db" {
 }
 
 resource "aws_route_table_association" "db_default" {
-  count = !local.create_db_route_table && !var.create_db_internet_gateway_route && !var.create_db_nat_gateway_route ? local.len_db_subnets : 0
+  count = local.create_db_subnets && !local.create_db_route_table && !var.create_db_internet_gateway_route && !var.create_db_nat_gateway_route ? local.len_db_subnets : 0
 
   subnet_id = element(aws_subnet.db[*].id, count.index)
   route_table_id = element(

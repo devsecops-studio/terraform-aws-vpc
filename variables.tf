@@ -56,12 +56,6 @@ variable "enable_network_address_usage_metrics" {
   default     = null
 }
 
-variable "enable_ipv6" {
-  description = "Requests an Amazon-provided IPv6 CIDR block with a /56 prefix length for the VPC. You cannot specify the range of IP addresses, or the size of the CIDR block"
-  type        = bool
-  default     = false
-}
-
 variable "ipv6_cidr" {
   description = "(Optional) IPv6 CIDR block to request from an IPAM Pool. Can be set explicitly or derived from IPAM using `ipv6_netmask_length`"
   type        = string
@@ -130,16 +124,16 @@ variable "dhcp_options_tags" {
 # LB External Subnets
 ################################################################################
 
+variable "create_lb_external_subnets" {
+  description = "Wheter or not to create LB external subnets. Default: `true`"
+  type        = bool
+  default     = true
+}
+
 variable "lb_external_subnet_enable_resource_name_dns_a_record_on_launch" {
   description = "Indicates whether to respond to DNS queries for instance hostnames with DNS A records. Default: `false`"
   type        = bool
   default     = false
-}
-
-variable "lb_external_subnet_ipv6_prefixes" {
-  description = "Assigns IPv6 public subnet id based on the Amazon provided /56 prefix base 10 integer (0-256). Must be of equal length to the corresponding IPv4 subnet list"
-  type        = list(string)
-  default     = []
 }
 
 variable "lb_external_subnet_suffix" {
@@ -222,16 +216,16 @@ variable "lb_external_acl_tags" {
 # LB Internal Subnets
 ################################################################################
 
+variable "create_lb_internal_subnets" {
+  description = "Wheter or not to create LB internal subnets. Default: `true`"
+  type        = bool
+  default     = true
+}
+
 variable "lb_internal_subnet_enable_resource_name_dns_a_record_on_launch" {
   description = "Indicates whether to respond to DNS queries for instance hostnames with DNS A records. Default: `false`"
   type        = bool
   default     = false
-}
-
-variable "lb_internal_subnet_ipv6_prefixes" {
-  description = "Assigns IPv6 private subnet id based on the Amazon provided /56 prefix base 10 integer (0-256). Must be of equal length to the corresponding IPv4 subnet list"
-  type        = list(string)
-  default     = []
 }
 
 variable "lb_internal_subnet_names" {
@@ -320,16 +314,16 @@ variable "lb_internal_acl_tags" {
 # EC2 Public Subnets
 ################################################################################
 
+variable "create_ec2_public_subnets" {
+  description = "Wheter or not to create EC2 public subnets. Default: `true`"
+  type        = bool
+  default     = true
+}
+
 variable "ec2_public_subnet_enable_resource_name_dns_a_record_on_launch" {
   description = "Indicates whether to respond to DNS queries for instance hostnames with DNS A records. Default: `false`"
   type        = bool
   default     = false
-}
-
-variable "ec2_public_subnet_ipv6_prefixes" {
-  description = "Assigns IPv6 public subnet id based on the Amazon provided /56 prefix base 10 integer (0-256). Must be of equal length to the corresponding IPv4 subnet list"
-  type        = list(string)
-  default     = []
 }
 
 variable "map_public_ip_on_ec2_launched" {
@@ -418,16 +412,16 @@ variable "ec2_public_acl_tags" {
 # EC2 Private Subnets
 ################################################################################
 
+variable "create_ec2_private_subnets" {
+  description = "Wheter or not to create EC2 private subnets. Default: `true`"
+  type        = bool
+  default     = true
+}
+
 variable "ec2_private_subnet_enable_resource_name_dns_a_record_on_launch" {
   description = "Indicates whether to respond to DNS queries for instance hostnames with DNS A records. Default: `false`"
   type        = bool
   default     = false
-}
-
-variable "ec2_private_subnet_ipv6_prefixes" {
-  description = "Assigns IPv6 private subnet id based on the Amazon provided /56 prefix base 10 integer (0-256). Must be of equal length to the corresponding IPv4 subnet list"
-  type        = list(string)
-  default     = []
 }
 
 variable "ec2_private_subnet_suffix" {
@@ -510,16 +504,16 @@ variable "ec2_private_acl_tags" {
 # Others Public Subnets
 ################################################################################
 
+variable "create_others_public_subnets" {
+  description = "Wheter or not to create others public subnets. Default: `true`"
+  type        = bool
+  default     = true
+}
+
 variable "others_public_subnet_enable_resource_name_dns_a_record_on_launch" {
   description = "Indicates whether to respond to DNS queries for instance hostnames with DNS A records. Default: `false`"
   type        = bool
   default     = false
-}
-
-variable "others_public_subnet_ipv6_prefixes" {
-  description = "Assigns IPv6 public subnet id based on the Amazon provided /56 prefix base 10 integer (0-256). Must be of equal length to the corresponding IPv4 subnet list"
-  type        = list(string)
-  default     = []
 }
 
 variable "others_public_subnet_suffix" {
@@ -602,16 +596,16 @@ variable "others_public_acl_tags" {
 # Others Private Subnets
 ################################################################################
 
+variable "create_others_private_subnets" {
+  description = "Wheter or not to create others private subnets. Default: `true`"
+  type        = bool
+  default     = true
+}
+
 variable "others_private_subnet_enable_resource_name_dns_a_record_on_launch" {
   description = "Indicates whether to respond to DNS queries for instance hostnames with DNS A records. Default: `false`"
   type        = bool
   default     = false
-}
-
-variable "others_private_subnet_ipv6_prefixes" {
-  description = "Assigns IPv6 public subnet id based on the Amazon provided /56 prefix base 10 integer (0-256). Must be of equal length to the corresponding IPv4 subnet list"
-  type        = list(string)
-  default     = []
 }
 
 variable "others_private_subnet_suffix" {
@@ -694,16 +688,16 @@ variable "others_private_acl_tags" {
 # ECS Subnets
 ################################################################################
 
-variable "ecs_subnet_enable_resource_name_dns_a_record_on_launch" {
-  description = "Indicates whether to respond to DNS queries for instance hostnames with DNS A records. Default: `false`"
+variable "create_ecs_subnets" {
+  description = "Wheter or not to create ECS subnets. Default: `false`"
   type        = bool
   default     = false
 }
 
-variable "ecs_subnet_ipv6_prefixes" {
-  description = "Assigns IPv6 private subnet id based on the Amazon provided /56 prefix base 10 integer (0-256). Must be of equal length to the corresponding IPv4 subnet list"
-  type        = list(string)
-  default     = []
+variable "ecs_subnet_enable_resource_name_dns_a_record_on_launch" {
+  description = "Indicates whether to respond to DNS queries for instance hostnames with DNS A records. Default: `false`"
+  type        = bool
+  default     = false
 }
 
 variable "ecs_subnet_suffix" {
@@ -786,16 +780,16 @@ variable "ecs_acl_tags" {
 # Database Subnets
 ################################################################################
 
-variable "db_subnet_enable_resource_name_dns_a_record_on_launch" {
-  description = "Indicates whether to respond to DNS queries for instance hostnames with DNS A records. Default: `false`"
+variable "create_db_subnets" {
+  description = "Wheter or not to create database subnets. Default: `true`"
   type        = bool
   default     = false
 }
 
-variable "db_subnet_ipv6_prefixes" {
-  description = "Assigns IPv6 database subnet id based on the Amazon provided /56 prefix base 10 integer (0-256). Must be of equal length to the corresponding IPv4 subnet list"
-  type        = list(string)
-  default     = []
+variable "db_subnet_enable_resource_name_dns_a_record_on_launch" {
+  description = "Indicates whether to respond to DNS queries for instance hostnames with DNS A records. Default: `false`"
+  type        = bool
+  default     = false
 }
 
 variable "db_subnet_names" {
@@ -908,16 +902,16 @@ variable "db_acl_tags" {
 # Elasticache Subnets
 ################################################################################
 
-variable "cache_subnet_enable_resource_name_dns_a_record_on_launch" {
-  description = "Indicates whether to respond to DNS queries for instance hostnames with DNS A records. Default: `false`"
+variable "create_cache_subnets" {
+  description = "Wheter or not to create cache subnets. Default: `false`"
   type        = bool
   default     = false
 }
 
-variable "cache_subnet_ipv6_prefixes" {
-  description = "Assigns IPv6 cache subnet id based on the Amazon provided /56 prefix base 10 integer (0-256). Must be of equal length to the corresponding IPv4 subnet list"
-  type        = list(string)
-  default     = []
+variable "cache_subnet_enable_resource_name_dns_a_record_on_launch" {
+  description = "Indicates whether to respond to DNS queries for instance hostnames with DNS A records. Default: `false`"
+  type        = bool
+  default     = false
 }
 
 variable "cache_subnet_names" {
@@ -1030,16 +1024,16 @@ variable "cache_acl_tags" {
 # EKS Subnets
 ################################################################################
 
-variable "eks_subnet_enable_resource_name_dns_a_record_on_launch" {
-  description = "Indicates whether to respond to DNS queries for instance hostnames with DNS A records. Default: `false`"
+variable "create_eks_subnets" {
+  description = "Wheter or not to create EKS subnets. Default: `true`"
   type        = bool
   default     = false
 }
 
-variable "eks_subnet_ipv6_prefixes" {
-  description = "Assigns IPv6 private subnet id based on the Amazon provided /56 prefix base 10 integer (0-256). Must be of equal length to the corresponding IPv4 subnet list"
-  type        = list(string)
-  default     = []
+variable "eks_subnet_enable_resource_name_dns_a_record_on_launch" {
+  description = "Indicates whether to respond to DNS queries for instance hostnames with DNS A records. Default: `false`"
+  type        = bool
+  default     = false
 }
 
 variable "eks_subnet_suffix" {
@@ -1157,9 +1151,9 @@ variable "single_nat_gateway" {
 }
 
 variable "one_nat_gateway_per_az" {
-  description = "Should be true if you want only one NAT Gateway per availability zone. Default: `true`"
+  description = "Should be true if you want only one NAT Gateway per availability zone. Default: `false`"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "reuse_nat_ips" {

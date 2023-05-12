@@ -1,7 +1,7 @@
 locals {
   ec2_public_subnets             = [for suffix in local.cidr_configs.ec2_public : format("%s.%s", var.cidr_prefix, suffix)]
-  len_ec2_public_subnets         = max(length(local.ec2_public_subnets), length(var.ec2_public_subnet_ipv6_prefixes))
-  create_ec2_public_subnets      = local.create_vpc && local.len_ec2_public_subnets > 0
+  len_ec2_public_subnets         = length(local.ec2_public_subnets)
+  create_ec2_public_subnets      = local.create_vpc && var.create_ec2_public_subnets && local.len_ec2_public_subnets > 0
   create_ec2_public_route_table = local.create_ec2_public_subnets && var.create_ec2_public_subnet_route_table
 }
 
@@ -12,7 +12,6 @@ resource "aws_subnet" "ec2_public" {
   availability_zone_id                           = length(regexall("^[a-z]{2}-", element(local.azs, count.index))) == 0 ? element(local.azs, count.index) : null
   cidr_block                                     = element(concat(local.ec2_public_subnets, [""]), count.index)
   enable_resource_name_dns_a_record_on_launch    = var.ec2_public_subnet_enable_resource_name_dns_a_record_on_launch
-  ipv6_cidr_block                                = var.enable_ipv6 && length(var.ec2_public_subnet_ipv6_prefixes) > 0 ? cidrsubnet(aws_vpc.this[0].ipv6_cidr_block, 8, var.ec2_public_subnet_ipv6_prefixes[count.index]) : null
   map_public_ip_on_launch                        = var.map_public_ip_on_ec2_launched
   private_dns_hostname_type_on_launch            = var.private_dns_hostname_type_on_launch
   vpc_id                                         = local.vpc_id
@@ -59,14 +58,6 @@ resource "aws_route" "ec2_public_internet_gateway" {
   timeouts {
     create = "5m"
   }
-}
-
-resource "aws_route" "ec2_public_internet_gateway_ipv6" {
-  count = local.create_ec2_public_subnets && var.create_igw && var.enable_ipv6 ? 1 : 0
-
-  route_table_id              = aws_route_table.ec2_public[0].id
-  destination_ipv6_cidr_block = "::/0"
-  gateway_id                  = aws_internet_gateway.this[0].id
 }
 
 module "ec2_public_network_acl" {
