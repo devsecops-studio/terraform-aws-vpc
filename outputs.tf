@@ -3,6 +3,7 @@ locals {
   private_route_table_ids     = aws_route_table.private[*].id
   ec2_public_route_table_ids  = try(aws_route_table.ec2_public[*].id, null)
   ec2_private_route_table_ids = try(aws_route_table.ec2_private[*].id, null)
+  ecs_route_table_ids         = try(aws_route_table.ecs[*].id, null)
 }
 
 # ################################################################################
