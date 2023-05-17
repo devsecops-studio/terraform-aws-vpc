@@ -50,7 +50,7 @@ resource "aws_route_table_association" "lb_internal" {
 
   subnet_id = element(aws_subnet.lb_internal[*].id, count.index)
   route_table_id = element(
-    coalescelist(aws_route_table.lb_internal[*].id, aws_route_table.private[*].id),
+    coalescelist(aws_route_table.lb_internal[*].id, aws_default_route_table.default[*].id),
     local.create_lb_internal_route_table ? var.single_nat_gateway ? 0 : count.index : count.index,
   )
 }
