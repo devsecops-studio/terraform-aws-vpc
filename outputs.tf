@@ -191,6 +191,30 @@ output "ecs_route_table_ids" {
 # }
 
 # ################################################################################
+# # Other Private Subnets
+# ################################################################################
+
+output "others_private_subnets" {
+  description = "List of IDs of other private subnets"
+  value       = aws_subnet.others_private[*].id
+}
+
+output "others_private_subnet_arns" {
+  description = "List of ARNs of other private subnets"
+  value       = aws_subnet.others_private[*].arn
+}
+
+output "others_private_subnets_cidr_blocks" {
+  description = "List of cidr_blocks of other private subnets"
+  value       = compact(aws_subnet.others_private[*].cidr_block)
+}
+
+output "others_private_route_table_ids" {
+  description = "List of IDs of others private route tables"
+  value       = try(aws_route_table.others_private[*].id, null)
+}
+
+# ################################################################################
 # # Database Subnets
 # ################################################################################
 
