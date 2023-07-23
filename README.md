@@ -333,6 +333,10 @@ Terraform module which creates VPC resources on AWS.
 | <a name="output_ecs_subnet_arns"></a> [ecs\_subnet\_arns](#output\_ecs\_subnet\_arns) | List of ARNs of ECS subnets |
 | <a name="output_ecs_subnets"></a> [ecs\_subnets](#output\_ecs\_subnets) | List of IDs of ECS subnets |
 | <a name="output_ecs_subnets_cidr_blocks"></a> [ecs\_subnets\_cidr\_blocks](#output\_ecs\_subnets\_cidr\_blocks) | List of cidr\_blocks of ECS subnets |
+| <a name="output_lb_internal_route_table_ids"></a> [lb\_internal\_route\_table\_ids](#output\_lb\_internal\_route\_table\_ids) | List of IDs of Load Balancer private route tables |
+| <a name="output_lb_internal_subnet_arns"></a> [lb\_internal\_subnet\_arns](#output\_lb\_internal\_subnet\_arns) | List of ARNs of Load Balancer private subnets |
+| <a name="output_lb_internal_subnets"></a> [lb\_internal\_subnets](#output\_lb\_internal\_subnets) | List of IDs of Load Balancer private subnets |
+| <a name="output_lb_internal_subnets_cidr_blocks"></a> [lb\_internal\_subnets\_cidr\_blocks](#output\_lb\_internal\_subnets\_cidr\_blocks) | List of cidr\_blocks of Load Balancer private subnets |
 | <a name="output_name"></a> [name](#output\_name) | The name of the VPC specified as argument to this module |
 | <a name="output_nat_ids"></a> [nat\_ids](#output\_nat\_ids) | List of allocation ID of Elastic IPs created for AWS NAT Gateway |
 | <a name="output_nat_public_ips"></a> [nat\_public\_ips](#output\_nat\_public\_ips) | List of public Elastic IPs created for AWS NAT Gateway |
