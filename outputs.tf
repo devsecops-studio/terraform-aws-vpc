@@ -191,6 +191,30 @@ output "ecs_route_table_ids" {
 # }
 
 # ################################################################################
+# # Load Balancer Public Subnets
+# ################################################################################
+
+output "lb_external_subnets" {
+  description = "List of IDs of Load Balancer public subnets"
+  value       = aws_subnet.lb_external[*].id
+}
+
+output "lb_external_subnet_arns" {
+  description = "List of ARNs of Load Balancer public subnets"
+  value       = aws_subnet.lb_external[*].arn
+}
+
+output "lb_external_subnets_cidr_blocks" {
+  description = "List of cidr_blocks of Load Balancer public subnets"
+  value       = compact(aws_subnet.lb_external[*].cidr_block)
+}
+
+output "lb_external_route_table_ids" {
+  description = "List of IDs of Load Balancer public route tables"
+  value       = try(aws_route_table.lb_external[*].id, null)
+}
+
+# ################################################################################
 # # Load Balancer Private Subnets
 # ################################################################################
 
