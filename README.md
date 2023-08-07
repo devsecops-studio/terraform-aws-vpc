@@ -333,6 +333,10 @@ Terraform module which creates VPC resources on AWS.
 | <a name="output_ecs_subnet_arns"></a> [ecs\_subnet\_arns](#output\_ecs\_subnet\_arns) | List of ARNs of ECS subnets |
 | <a name="output_ecs_subnets"></a> [ecs\_subnets](#output\_ecs\_subnets) | List of IDs of ECS subnets |
 | <a name="output_ecs_subnets_cidr_blocks"></a> [ecs\_subnets\_cidr\_blocks](#output\_ecs\_subnets\_cidr\_blocks) | List of cidr\_blocks of ECS subnets |
+| <a name="output_lb_external_route_table_ids"></a> [lb\_external\_route\_table\_ids](#output\_lb\_external\_route\_table\_ids) | List of IDs of Load Balancer public route tables |
+| <a name="output_lb_external_subnet_arns"></a> [lb\_external\_subnet\_arns](#output\_lb\_external\_subnet\_arns) | List of ARNs of Load Balancer public subnets |
+| <a name="output_lb_external_subnets"></a> [lb\_external\_subnets](#output\_lb\_external\_subnets) | List of IDs of Load Balancer public subnets |
+| <a name="output_lb_external_subnets_cidr_blocks"></a> [lb\_external\_subnets\_cidr\_blocks](#output\_lb\_external\_subnets\_cidr\_blocks) | List of cidr\_blocks of Load Balancer public subnets |
 | <a name="output_lb_internal_route_table_ids"></a> [lb\_internal\_route\_table\_ids](#output\_lb\_internal\_route\_table\_ids) | List of IDs of Load Balancer private route tables |
 | <a name="output_lb_internal_subnet_arns"></a> [lb\_internal\_subnet\_arns](#output\_lb\_internal\_subnet\_arns) | List of ARNs of Load Balancer private subnets |
 | <a name="output_lb_internal_subnets"></a> [lb\_internal\_subnets](#output\_lb\_internal\_subnets) | List of IDs of Load Balancer private subnets |
@@ -345,6 +349,8 @@ Terraform module which creates VPC resources on AWS.
 | <a name="output_others_private_subnet_arns"></a> [others\_private\_subnet\_arns](#output\_others\_private\_subnet\_arns) | List of ARNs of other private subnets |
 | <a name="output_others_private_subnets"></a> [others\_private\_subnets](#output\_others\_private\_subnets) | List of IDs of other private subnets |
 | <a name="output_others_private_subnets_cidr_blocks"></a> [others\_private\_subnets\_cidr\_blocks](#output\_others\_private\_subnets\_cidr\_blocks) | List of cidr\_blocks of other private subnets |
+| <a name="output_private_route_table_ids"></a> [private\_route\_table\_ids](#output\_private\_route\_table\_ids) | Private route tables associated with this VPC |
+| <a name="output_public_route_table_ids"></a> [public\_route\_table\_ids](#output\_public\_route\_table\_ids) | Public route tables associated with this VPC |
 | <a name="output_vpc_arn"></a> [vpc\_arn](#output\_vpc\_arn) | The ARN of the VPC |
 | <a name="output_vpc_cidr_block"></a> [vpc\_cidr\_block](#output\_vpc\_cidr\_block) | The CIDR block of the VPC |
 | <a name="output_vpc_id"></a> [vpc\_id](#output\_vpc\_id) | The ID of the VPC |

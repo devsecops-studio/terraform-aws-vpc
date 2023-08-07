@@ -55,6 +55,16 @@ output "vpc_main_route_table_id" {
   value       = try(aws_vpc.this[0].main_route_table_id, null)
 }
 
+output "public_route_table_ids" {
+  description = "Public route tables associated with this VPC"
+  value       = try(aws_route_table.public[*].id, null)
+}
+
+output "private_route_table_ids" {
+  description = "Private route tables associated with this VPC"
+  value       = try(aws_route_table.private[*].id, null)
+}
+
 output "vpc_secondary_cidr_blocks" {
   description = "List of secondary CIDR blocks of the VPC"
   value       = compact(aws_vpc_ipv4_cidr_block_association.this[*].cidr_block)
