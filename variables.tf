@@ -538,7 +538,6 @@ variable "others_public_route_table_tags" {
 ################################################################################
 # Others Public Network ACLs
 ################################################################################
-
 variable "others_public_dedicated_network_acl" {
   description = "Whether to use dedicated network ACL (not default) and custom rules for others public subnets. Default: `true`"
   type        = bool
@@ -1098,6 +1097,12 @@ variable "create_connectivity_subnets" {
   description = "Wheter or not to create Connectivity subnets. Default: `true`"
   type        = bool
   default     = true
+}
+
+variable "connectivity_subnet_names" {
+  description = "Explicit values to use in the Name tag on Connectivity subnets. If empty, Name tags are generated"
+  type        = list(string)
+  default     = []
 }
 
 variable "connectivity_subnet_enable_resource_name_dns_a_record_on_launch" {
