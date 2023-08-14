@@ -29,7 +29,7 @@ resource "aws_subnet" "connectivity" {
 }
 
 resource "aws_route_table" "connectivity" {
-  count = local.create_connectivity_route_table ? local.nat_gateway_count : 0
+  count = local.create_connectivity_route_table ? local.nat_gateway_count > 0 ? local.nat_gateway_count : 1 : 0
 
   vpc_id = local.vpc_id
 
