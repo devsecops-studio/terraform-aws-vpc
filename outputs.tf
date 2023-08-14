@@ -273,6 +273,29 @@ output "others_private_route_table_ids" {
 }
 
 # ################################################################################
+# # Connectivity Subnets
+# ################################################################################
+output "connectivity_subnets" {
+  description = "List of IDs of Connectivity private subnets"
+  value       = try(aws_subnet.connectivity[*].id, null)
+}
+
+output "connectivity_subnet_arns" {
+  description = "List of ARNs of Connectivity subnets"
+  value       = try(aws_subnet.connectivity[*].arn, null)
+}
+
+output "connectivity_subnets_cidr_blocks" {
+  description = "List of cidr_blocks of Connectivity subnets"
+  value       = compact(aws_subnet.connectivity[*].cidr_block)
+}
+
+output "connectivity_route_table_ids" {
+  description = "List of IDs of Connectivity route tables"
+  value       = try(aws_route_table.connectivity[*].id, null)
+}
+
+# ################################################################################
 # # Database Subnets
 # ################################################################################
 
@@ -508,30 +531,6 @@ output "natgw_ids" {
 # output "default_vpc_main_route_table_id" {
 #   description = "The ID of the main route table associated with the Default VPC"
 #   value       = try(aws_default_vpc.this[0].main_route_table_id, null)
-# }
-
-# ################################################################################
-# # VPC Flow Log
-# ################################################################################
-
-# output "vpc_flow_log_id" {
-#   description = "The ID of the Flow Log resource"
-#   value       = try(aws_flow_log.this[0].id, null)
-# }
-
-# output "vpc_flow_log_destination_arn" {
-#   description = "The ARN of the destination for VPC Flow Logs"
-#   value       = local.flow_log_destination_arn
-# }
-
-# output "vpc_flow_log_destination_type" {
-#   description = "The type of the destination for VPC Flow Logs"
-#   value       = var.flow_log_destination_type
-# }
-
-# output "vpc_flow_log_cloudwatch_iam_role_arn" {
-#   description = "The ARN of the IAM role used when pushing logs to Cloudwatch log group"
-#   value       = local.flow_log_iam_role_arn
 # }
 
 # ################################################################################

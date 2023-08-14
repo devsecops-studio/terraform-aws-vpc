@@ -1,7 +1,6 @@
 ################################################################################
 # VPC
 ################################################################################
-
 variable "create_vpc" {
   description = "Controls if VPC should be created (it affects almost all resources)"
   type        = bool
@@ -77,7 +76,6 @@ variable "tags" {
 ################################################################################
 # DHCP Options Set
 ################################################################################
-
 variable "enable_dhcp_options" {
   description = "Should be true if you want to specify a DHCP options set with a custom domain name, DNS servers, NTP servers, netbios servers, and/or netbios server type"
   type        = bool
@@ -123,7 +121,6 @@ variable "dhcp_options_tags" {
 ################################################################################
 # LB External Subnets
 ################################################################################
-
 variable "create_lb_external_subnets" {
   description = "Wheter or not to create LB external subnets. Default: `true`"
   type        = bool
@@ -169,7 +166,6 @@ variable "lb_external_route_table_tags" {
 ################################################################################
 # LB External Network ACLs
 ################################################################################
-
 variable "lb_external_dedicated_network_acl" {
   description = "Whether to use dedicated network ACL (not default) and custom rules for LB public subnets. Default: `true`"
   type        = bool
@@ -215,7 +211,6 @@ variable "lb_external_acl_tags" {
 ################################################################################
 # LB Internal Subnets
 ################################################################################
-
 variable "create_lb_internal_subnets" {
   description = "Wheter or not to create LB internal subnets. Default: `true`"
   type        = bool
@@ -247,7 +242,7 @@ variable "create_lb_internal_subnet_route_table" {
 }
 
 variable "lb_internal_subnet_tags" {
-  description = "Additional tags for the private subnets"
+  description = "Additional tags for the LB private subnets"
   type        = map(string)
   default     = {}
 }
@@ -267,7 +262,6 @@ variable "lb_internal_route_table_tags" {
 ################################################################################
 # LB Private Network ACLs
 ################################################################################
-
 variable "lb_internal_dedicated_network_acl" {
   description = "Whether to use dedicated network ACL (not default) and custom rules for LB private subnets. Default: `true`"
   type        = bool
@@ -313,7 +307,6 @@ variable "lb_internal_acl_tags" {
 ################################################################################
 # EC2 Public Subnets
 ################################################################################
-
 variable "create_ec2_public_subnets" {
   description = "Wheter or not to create EC2 public subnets. Default: `true`"
   type        = bool
@@ -333,7 +326,7 @@ variable "map_public_ip_on_ec2_launched" {
 }
 
 variable "ec2_public_subnet_suffix" {
-  description = "Suffix to append to Load balancer public subnets name"
+  description = "Suffix to append to EC2 public subnets name"
   type        = string
   default     = "ec2-pub"
 }
@@ -345,19 +338,19 @@ variable "create_ec2_public_subnet_route_table" {
 }
 
 variable "ec2_public_subnet_tags" {
-  description = "Additional tags for the Load balancer public subnets"
+  description = "Additional tags for the Ec2 public subnets"
   type        = map(string)
   default     = {}
 }
 
 variable "ec2_public_subnet_tags_per_az" {
-  description = "Additional tags for the Load balancer public subnets where the primary key is the AZ"
+  description = "Additional tags for the EC2 public subnets where the primary key is the AZ"
   type        = map(map(string))
   default     = {}
 }
 
 variable "ec2_public_route_table_tags" {
-  description = "Additional tags for the Load balancer public route tables"
+  description = "Additional tags for the EC2 public route tables"
   type        = map(string)
   default     = {}
 }
@@ -365,7 +358,6 @@ variable "ec2_public_route_table_tags" {
 ################################################################################
 # EC2 Public Network ACLs
 ################################################################################
-
 variable "ec2_public_dedicated_network_acl" {
   description = "Whether to use dedicated network ACL (not default) and custom rules for EC2 public subnets. Default: `true`"
   type        = bool
@@ -411,7 +403,6 @@ variable "ec2_public_acl_tags" {
 ################################################################################
 # EC2 Private Subnets
 ################################################################################
-
 variable "create_ec2_private_subnets" {
   description = "Wheter or not to create EC2 private subnets. Default: `true`"
   type        = bool
@@ -425,7 +416,7 @@ variable "ec2_private_subnet_enable_resource_name_dns_a_record_on_launch" {
 }
 
 variable "ec2_private_subnet_suffix" {
-  description = "Suffix to append to Load balancer private subnets name"
+  description = "Suffix to append to EC2 private subnets name"
   type        = string
   default     = "ec2-priv"
 }
@@ -437,19 +428,19 @@ variable "create_ec2_private_subnet_route_table" {
 }
 
 variable "ec2_private_subnet_tags" {
-  description = "Additional tags for the Load balancer private subnets"
+  description = "Additional tags for the Ec2 private subnets"
   type        = map(string)
   default     = {}
 }
 
 variable "ec2_private_subnet_tags_per_az" {
-  description = "Additional tags for the Load balancer private subnets where the primary key is the AZ"
+  description = "Additional tags for the EC2 subnets where the primary key is the AZ"
   type        = map(map(string))
   default     = {}
 }
 
 variable "ec2_private_route_table_tags" {
-  description = "Additional tags for the Load balancer private route tables"
+  description = "Additional tags for the EC2 private route tables"
   type        = map(string)
   default     = {}
 }
@@ -457,7 +448,6 @@ variable "ec2_private_route_table_tags" {
 ################################################################################
 # EC2 Private Network ACLs
 ################################################################################
-
 variable "ec2_private_dedicated_network_acl" {
   description = "Whether to use dedicated network ACL (not default) and custom rules for EC2 private subnets. Default: `true`"
   type        = bool
@@ -503,7 +493,6 @@ variable "ec2_private_acl_tags" {
 ################################################################################
 # Others Public Subnets
 ################################################################################
-
 variable "create_others_public_subnets" {
   description = "Wheter or not to create others public subnets. Default: `true`"
   type        = bool
@@ -517,7 +506,7 @@ variable "others_public_subnet_enable_resource_name_dns_a_record_on_launch" {
 }
 
 variable "others_public_subnet_suffix" {
-  description = "Suffix to append to Load balancer public subnets name"
+  description = "Suffix to append to others public subnets name"
   type        = string
   default     = "other-pub"
 }
@@ -529,19 +518,19 @@ variable "create_others_public_subnet_route_table" {
 }
 
 variable "others_public_subnet_tags" {
-  description = "Additional tags for the Load balancer public subnets"
+  description = "Additional tags for others public subnets"
   type        = map(string)
   default     = {}
 }
 
 variable "others_public_subnet_tags_per_az" {
-  description = "Additional tags for the Load balancer public subnets where the primary key is the AZ"
+  description = "Additional tags for others public subnets where the primary key is the AZ"
   type        = map(map(string))
   default     = {}
 }
 
 variable "others_public_route_table_tags" {
-  description = "Additional tags for the Load balancer public route tables"
+  description = "Additional tags for others public route tables"
   type        = map(string)
   default     = {}
 }
@@ -551,13 +540,13 @@ variable "others_public_route_table_tags" {
 ################################################################################
 
 variable "others_public_dedicated_network_acl" {
-  description = "Whether to use dedicated network ACL (not default) and custom rules for LB public subnets. Default: `true`"
+  description = "Whether to use dedicated network ACL (not default) and custom rules for others public subnets. Default: `true`"
   type        = bool
   default     = true
 }
 
 variable "others_public_inbound_acl_rules" {
-  description = "LB public subnets inbound network ACLs"
+  description = "others public subnets inbound network ACLs"
   type        = list(map(string))
   default = [
     {
@@ -572,7 +561,7 @@ variable "others_public_inbound_acl_rules" {
 }
 
 variable "others_public_outbound_acl_rules" {
-  description = "LB public subnets outbound network ACLs"
+  description = "others public subnets outbound network ACLs"
   type        = list(map(string))
   default = [
     {
@@ -587,7 +576,7 @@ variable "others_public_outbound_acl_rules" {
 }
 
 variable "others_public_acl_tags" {
-  description = "Additional tags for the LB public subnets network ACL"
+  description = "Additional tags for others public subnets network ACL"
   type        = map(string)
   default     = {}
 }
@@ -595,7 +584,6 @@ variable "others_public_acl_tags" {
 ################################################################################
 # Others Private Subnets
 ################################################################################
-
 variable "create_others_private_subnets" {
   description = "Wheter or not to create others private subnets. Default: `true`"
   type        = bool
@@ -621,19 +609,19 @@ variable "create_others_private_subnet_route_table" {
 }
 
 variable "others_private_subnet_tags" {
-  description = "Additional tags for the Load balancer public subnets"
+  description = "Additional tags for others private public subnets"
   type        = map(string)
   default     = {}
 }
 
 variable "others_private_subnet_tags_per_az" {
-  description = "Additional tags for the Load balancer public subnets where the primary key is the AZ"
+  description = "Additional tags for others private subnets where the primary key is the AZ"
   type        = map(map(string))
   default     = {}
 }
 
 variable "others_private_route_table_tags" {
-  description = "Additional tags for the Load balancer public route tables"
+  description = "Additional tags for others private route tables"
   type        = map(string)
   default     = {}
 }
@@ -641,7 +629,6 @@ variable "others_private_route_table_tags" {
 ################################################################################
 # Others Private Network ACLs
 ################################################################################
-
 variable "others_private_dedicated_network_acl" {
   description = "Whether to use dedicated network ACL (not default) and custom rules for LB public subnets. Default: `true`"
   type        = bool
@@ -687,7 +674,6 @@ variable "others_private_acl_tags" {
 ################################################################################
 # ECS Subnets
 ################################################################################
-
 variable "create_ecs_subnets" {
   description = "Wheter or not to create ECS subnets. Default: `false`"
   type        = bool
@@ -701,7 +687,7 @@ variable "ecs_subnet_enable_resource_name_dns_a_record_on_launch" {
 }
 
 variable "ecs_subnet_suffix" {
-  description = "Suffix to append to Load balancer private subnets name"
+  description = "Suffix to append to ECS subnets name"
   type        = string
   default     = "ecs"
 }
@@ -713,19 +699,19 @@ variable "create_ecs_subnet_route_table" {
 }
 
 variable "ecs_subnet_tags" {
-  description = "Additional tags for the Load balancer private subnets"
+  description = "Additional tags for the ECS subnets"
   type        = map(string)
   default     = {}
 }
 
 variable "ecs_subnet_tags_per_az" {
-  description = "Additional tags for the Load balancer private subnets where the primary key is the AZ"
+  description = "Additional tags for the ECS where the primary key is the AZ"
   type        = map(map(string))
   default     = {}
 }
 
 variable "ecs_route_table_tags" {
-  description = "Additional tags for the Load balancer private route tables"
+  description = "Additional tags for the ECS route tables"
   type        = map(string)
   default     = {}
 }
@@ -733,15 +719,14 @@ variable "ecs_route_table_tags" {
 ################################################################################
 # ECS Network ACLs
 ################################################################################
-
 variable "ecs_dedicated_network_acl" {
-  description = "Whether to use dedicated network ACL (not default) and custom rules for ECS private subnets. Default: `true`"
+  description = "Whether to use dedicated network ACL (not default) and custom rules for ECS subnets. Default: `true`"
   type        = bool
   default     = true
 }
 
 variable "ecs_inbound_acl_rules" {
-  description = "ECS private subnets inbound network ACLs"
+  description = "ECS subnets inbound network ACLs"
   type        = list(map(string))
   default = [
     {
@@ -756,7 +741,7 @@ variable "ecs_inbound_acl_rules" {
 }
 
 variable "ecs_outbound_acl_rules" {
-  description = "ECS private subnets outbound network ACLs"
+  description = "ECS subnets outbound network ACLs"
   type        = list(map(string))
   default = [
     {
@@ -771,7 +756,7 @@ variable "ecs_outbound_acl_rules" {
 }
 
 variable "ecs_acl_tags" {
-  description = "Additional tags for the ECS private subnets network ACL"
+  description = "Additional tags for the ECS subnets network ACL"
   type        = map(string)
   default     = {}
 }
@@ -779,9 +764,8 @@ variable "ecs_acl_tags" {
 ################################################################################
 # Database Subnets
 ################################################################################
-
 variable "create_db_subnets" {
-  description = "Wheter or not to create database subnets. Default: `true`"
+  description = "Wheter or not to create database subnets. Default: `false`"
   type        = bool
   default     = false
 }
@@ -855,7 +839,6 @@ variable "db_subnet_group_tags" {
 ################################################################################
 # Database Network ACLs
 ################################################################################
-
 variable "db_dedicated_network_acl" {
   description = "Whether to use dedicated network ACL (not default) and custom rules for database subnets"
   type        = bool
@@ -901,7 +884,6 @@ variable "db_acl_tags" {
 ################################################################################
 # Elasticache Subnets
 ################################################################################
-
 variable "create_cache_subnets" {
   description = "Wheter or not to create cache subnets. Default: `false`"
   type        = bool
@@ -977,7 +959,6 @@ variable "cache_subnet_group_tags" {
 ################################################################################
 # Elasticache Network ACLs
 ################################################################################
-
 variable "cache_dedicated_network_acl" {
   description = "Whether to use dedicated network ACL (not default) and custom rules for cache subnets"
   type        = bool
@@ -1023,9 +1004,8 @@ variable "cache_acl_tags" {
 ################################################################################
 # EKS Subnets
 ################################################################################
-
 variable "create_eks_subnets" {
-  description = "Wheter or not to create EKS subnets. Default: `true`"
+  description = "Wheter or not to create EKS subnets. Default: `false`"
   type        = bool
   default     = false
 }
@@ -1037,7 +1017,7 @@ variable "eks_subnet_enable_resource_name_dns_a_record_on_launch" {
 }
 
 variable "eks_subnet_suffix" {
-  description = "Suffix to append to Load balancer private subnets name"
+  description = "Suffix to append to EKS subnets name"
   type        = string
   default     = "eks"
 }
@@ -1049,19 +1029,19 @@ variable "create_eks_subnet_route_table" {
 }
 
 variable "eks_subnet_tags" {
-  description = "Additional tags for the Load balancer private subnets"
+  description = "Additional tags for the EKS subnets"
   type        = map(string)
   default     = {}
 }
 
 variable "eks_subnet_tags_per_az" {
-  description = "Additional tags for the Load balancer private subnets where the primary key is the AZ"
+  description = "Additional tags for the EKS subnets where the primary key is the AZ"
   type        = map(map(string))
   default     = {}
 }
 
 variable "eks_route_table_tags" {
-  description = "Additional tags for the Load balancer private route tables"
+  description = "Additional tags for the EKS route tables"
   type        = map(string)
   default     = {}
 }
@@ -1069,15 +1049,14 @@ variable "eks_route_table_tags" {
 ################################################################################
 # EKS Network ACLs
 ################################################################################
-
 variable "eks_dedicated_network_acl" {
-  description = "Whether to use dedicated network ACL (not default) and custom rules for ECS private subnets. Default: `true`"
+  description = "Whether to use dedicated network ACL (not default) and custom rules for EKS subnets. Default: `true`"
   type        = bool
   default     = true
 }
 
 variable "eks_inbound_acl_rules" {
-  description = "ECS private subnets inbound network ACLs"
+  description = "EKS subnets inbound network ACLs"
   type        = list(map(string))
   default = [
     {
@@ -1092,7 +1071,7 @@ variable "eks_inbound_acl_rules" {
 }
 
 variable "eks_outbound_acl_rules" {
-  description = "ECS private subnets outbound network ACLs"
+  description = "EKS subnets outbound network ACLs"
   type        = list(map(string))
   default = [
     {
@@ -1107,7 +1086,103 @@ variable "eks_outbound_acl_rules" {
 }
 
 variable "eks_acl_tags" {
-  description = "Additional tags for the ECS private subnets network ACL"
+  description = "Additional tags for the EKS subnets network ACL"
+  type        = map(string)
+  default     = {}
+}
+
+################################################################################
+# Connectivity Subnets
+################################################################################
+variable "create_connectivity_subnets" {
+  description = "Wheter or not to create Connectivity subnets. Default: `true`"
+  type        = bool
+  default     = true
+}
+
+variable "connectivity_subnet_enable_resource_name_dns_a_record_on_launch" {
+  description = "Indicates whether to respond to DNS queries for instance hostnames with DNS A records. Default: `false`"
+  type        = bool
+  default     = false
+}
+
+variable "connectivity_subnet_suffix" {
+  description = "Suffix to append to Connectivity subnets name"
+  type        = string
+  default     = "connectivity"
+}
+
+variable "create_connectivity_subnet_route_table" {
+  description = "Controls if separate route table for Connectivity subnets should be created. Default: `true`"
+  type        = bool
+  default     = true
+}
+
+variable "create_connectivity_nat_gateway_route" {
+  description = "Controls if a nat gateway route should be created to give internet access to the Connectivity subnets"
+  type        = bool
+  default     = false
+}
+
+variable "connectivity_subnet_tags" {
+  description = "Additional tags for the Connectivity subnets"
+  type        = map(string)
+  default     = {}
+}
+
+variable "connectivity_subnet_tags_per_az" {
+  description = "Additional tags for the Connectivity subnets where the primary key is the AZ"
+  type        = map(map(string))
+  default     = {}
+}
+
+variable "connectivity_route_table_tags" {
+  description = "Additional tags for the Connectivity route tables"
+  type        = map(string)
+  default     = {}
+}
+
+################################################################################
+# EKS Network ACLs
+################################################################################
+variable "connectivity_dedicated_network_acl" {
+  description = "Whether to use dedicated network ACL (not default) and custom rules for Connectivity subnets. Default: `true`"
+  type        = bool
+  default     = true
+}
+
+variable "connectivity_inbound_acl_rules" {
+  description = "Connectivity subnets inbound network ACLs"
+  type        = list(map(string))
+  default = [
+    {
+      rule_number = 100
+      rule_action = "allow"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_block  = "0.0.0.0/0"
+    },
+  ]
+}
+
+variable "connectivity_outbound_acl_rules" {
+  description = "Connectivity subnets outbound network ACLs"
+  type        = list(map(string))
+  default = [
+    {
+      rule_number = 100
+      rule_action = "allow"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_block  = "0.0.0.0/0"
+    },
+  ]
+}
+
+variable "connectivity_acl_tags" {
+  description = "Additional tags for the Connectivity subnets network ACL"
   type        = map(string)
   default     = {}
 }
@@ -1115,7 +1190,6 @@ variable "eks_acl_tags" {
 ################################################################################
 # Internet Gateway
 ################################################################################
-
 variable "create_igw" {
   description = "Controls if an Internet Gateway is created for public subnets and the related routes that connect them"
   type        = bool
@@ -1368,120 +1442,4 @@ variable "default_route_table_tags" {
   description = "Additional tags for the default route table"
   type        = map(string)
   default     = {}
-}
-
-################################################################################
-# Flow Log
-################################################################################
-
-variable "enable_flow_log" {
-  description = "Whether or not to enable VPC Flow Logs"
-  type        = bool
-  default     = false
-}
-
-variable "vpc_flow_log_permissions_boundary" {
-  description = "The ARN of the Permissions Boundary for the VPC Flow Log IAM Role"
-  type        = string
-  default     = null
-}
-
-variable "flow_log_max_aggregation_interval" {
-  description = "The maximum interval of time during which a flow of packets is captured and aggregated into a flow log record. Valid Values: `60` seconds or `600` seconds"
-  type        = number
-  default     = 600
-}
-
-variable "flow_log_traffic_type" {
-  description = "The type of traffic to capture. Valid values: ACCEPT, REJECT, ALL"
-  type        = string
-  default     = "ALL"
-}
-
-variable "flow_log_destination_type" {
-  description = "Type of flow log destination. Can be s3 or cloud-watch-logs"
-  type        = string
-  default     = "cloud-watch-logs"
-}
-
-variable "flow_log_log_format" {
-  description = "The fields to include in the flow log record, in the order in which they should appear"
-  type        = string
-  default     = null
-}
-
-variable "flow_log_destination_arn" {
-  description = "The ARN of the CloudWatch log group or S3 bucket where VPC Flow Logs will be pushed. If this ARN is a S3 bucket the appropriate permissions need to be set on that bucket's policy. When create_flow_log_cloudwatch_log_group is set to false this argument must be provided"
-  type        = string
-  default     = ""
-}
-
-variable "flow_log_file_format" {
-  description = "(Optional) The format for the flow log. Valid values: `plain-text`, `parquet`"
-  type        = string
-  default     = null
-}
-
-variable "flow_log_hive_compatible_partitions" {
-  description = "(Optional) Indicates whether to use Hive-compatible prefixes for flow logs stored in Amazon S3"
-  type        = bool
-  default     = false
-}
-
-variable "flow_log_per_hour_partition" {
-  description = "(Optional) Indicates whether to partition the flow log per hour. This reduces the cost and response time for queries"
-  type        = bool
-  default     = false
-}
-
-variable "vpc_flow_log_tags" {
-  description = "Additional tags for the VPC Flow Logs"
-  type        = map(string)
-  default     = {}
-}
-
-################################################################################
-# Flow Log CloudWatch
-################################################################################
-
-variable "create_flow_log_cloudwatch_log_group" {
-  description = "Whether to create CloudWatch log group for VPC Flow Logs"
-  type        = bool
-  default     = false
-}
-
-variable "create_flow_log_cloudwatch_iam_role" {
-  description = "Whether to create IAM role for VPC Flow Logs"
-  type        = bool
-  default     = false
-}
-
-variable "flow_log_cloudwatch_iam_role_arn" {
-  description = "The ARN for the IAM role that's used to post flow logs to a CloudWatch Logs log group. When flow_log_destination_arn is set to ARN of Cloudwatch Logs, this argument needs to be provided"
-  type        = string
-  default     = ""
-}
-
-variable "flow_log_cloudwatch_log_group_name_prefix" {
-  description = "Specifies the name prefix of CloudWatch Log Group for VPC flow logs"
-  type        = string
-  default     = "/aws/vpc-flow-log/"
-}
-
-variable "flow_log_cloudwatch_log_group_name_suffix" {
-  description = "Specifies the name suffix of CloudWatch Log Group for VPC flow logs"
-  type        = string
-  default     = ""
-}
-
-variable "flow_log_cloudwatch_log_group_retention_in_days" {
-  description = "Specifies the number of days you want to retain log events in the specified log group for VPC flow logs"
-  type        = number
-  default     = null
-}
-
-variable "flow_log_cloudwatch_log_group_kms_key_id" {
-  description = "The ARN of the KMS Key to use when encrypting log data for VPC flow logs"
-  type        = string
-  default     = null
 }

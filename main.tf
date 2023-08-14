@@ -21,6 +21,7 @@ locals {
     local.len_eks_subnets,
     local.len_cache_subnets,
     local.len_db_subnets,
+    local.len_connectivity_subnets,
   )
 
   # Use `local.vpc_id` to give a hint to Terraform that subnets should be deleted before secondary CIDR blocks can be free!
