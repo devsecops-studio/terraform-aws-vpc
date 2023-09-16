@@ -12,7 +12,7 @@ resource "aws_subnet" "ecs" {
   availability_zone_id                           = length(regexall("^[a-z]{2}-", element(local.azs, count.index))) == 0 ? element(local.azs, count.index) : null
   cidr_block                                     = element(concat(local.ecs_subnets, [""]), count.index)
   enable_resource_name_dns_a_record_on_launch    = var.ecs_subnet_enable_resource_name_dns_a_record_on_launch
-  map_public_ip_on_launch                        = var.map_public_ip_on_ec2_launched
+  map_public_ip_on_launch                        = false
   private_dns_hostname_type_on_launch            = var.private_dns_hostname_type_on_launch
   vpc_id                                         = local.vpc_id
 
