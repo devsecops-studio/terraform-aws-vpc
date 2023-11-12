@@ -55,18 +55,6 @@ resource "aws_route_table_association" "lb_internal" {
   )
 }
 
-resource "aws_route" "lb_internal_nat_gateway" {
-  count = local.create_lb_internal_route_table && var.enable_nat_gateway ? var.single_nat_gateway ? 1 : local.nat_gateway_count : 0
-
-  route_table_id         = element(aws_route_table.lb_internal[*].id, count.index)
-  destination_cidr_block = "0.0.0.0/0"
-  nat_gateway_id         = element(aws_nat_gateway.this[*].id, count.index)
-
-  timeouts {
-    create = "5m"
-  }
-}
-
 module "lb_internal_network_acl" {
   source = "./modules/network-acl"
 
