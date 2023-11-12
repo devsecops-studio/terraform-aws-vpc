@@ -1,19 +1,19 @@
 locals {
-  lb_internal_subnets        = [for suffix in local.cidr_configs.lb_internal : format("%s.%s", var.cidr_prefix, suffix)]
-  len_lb_internal_subnets    = length(local.lb_internal_subnets)
-  create_lb_internal_subnets = local.create_vpc && var.create_lb_internal_subnets && local.len_lb_internal_subnets > 0
+  lb_internal_subnets            = [for suffix in local.cidr_configs.lb_internal : format("%s.%s", var.cidr_prefix, suffix)]
+  len_lb_internal_subnets        = length(local.lb_internal_subnets)
+  create_lb_internal_subnets     = local.create_vpc && var.create_lb_internal_subnets && local.len_lb_internal_subnets > 0
   create_lb_internal_route_table = local.create_lb_internal_subnets && var.create_lb_internal_subnet_route_table
 }
 
 resource "aws_subnet" "lb_internal" {
   count = local.create_lb_internal_subnets ? local.len_lb_internal_subnets : 0
 
-  availability_zone                              = length(regexall("^[a-z]{2}-", element(local.azs, count.index))) > 0 ? element(local.azs, count.index) : null
-  availability_zone_id                           = length(regexall("^[a-z]{2}-", element(local.azs, count.index))) == 0 ? element(local.azs, count.index) : null
-  cidr_block                                     = element(concat(local.lb_internal_subnets, [""]), count.index)
-  enable_resource_name_dns_a_record_on_launch    = var.lb_internal_subnet_enable_resource_name_dns_a_record_on_launch
-  private_dns_hostname_type_on_launch            = var.private_dns_hostname_type_on_launch
-  vpc_id = local.vpc_id
+  availability_zone                           = length(regexall("^[a-z]{2}-", element(local.azs, count.index))) > 0 ? element(local.azs, count.index) : null
+  availability_zone_id                        = length(regexall("^[a-z]{2}-", element(local.azs, count.index))) == 0 ? element(local.azs, count.index) : null
+  cidr_block                                  = element(concat(local.lb_internal_subnets, [""]), count.index)
+  enable_resource_name_dns_a_record_on_launch = var.lb_internal_subnet_enable_resource_name_dns_a_record_on_launch
+  private_dns_hostname_type_on_launch         = var.private_dns_hostname_type_on_launch
+  vpc_id                                      = local.vpc_id
 
   tags = merge(
     {
@@ -35,7 +35,7 @@ resource "aws_route_table" "lb_internal" {
 
   tags = merge(
     {
-      "Name" = var.single_nat_gateway ? "${var.name}-${var.lb_internal_subnet_suffix}" : format(
+      "Name" = var.single_nat_gateway || local.nat_gateway_count == 0 ? "${var.name}-${var.lb_internal_subnet_suffix}" : format(
         "${var.name}-${var.lb_internal_subnet_suffix}-%s",
         element(local.azs, count.index),
       )

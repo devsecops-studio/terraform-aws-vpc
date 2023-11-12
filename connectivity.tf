@@ -1,19 +1,19 @@
 locals {
-  connectivity_subnets        = [for suffix in local.cidr_configs.connectivity : format("%s.%s", var.cidr_prefix, suffix)]
-  len_connectivity_subnets    = length(local.connectivity_subnets)
-  create_connectivity_subnets = local.create_vpc && var.create_connectivity_subnets && local.len_connectivity_subnets > 0
+  connectivity_subnets            = [for suffix in local.cidr_configs.connectivity : format("%s.%s", var.cidr_prefix, suffix)]
+  len_connectivity_subnets        = length(local.connectivity_subnets)
+  create_connectivity_subnets     = local.create_vpc && var.create_connectivity_subnets && local.len_connectivity_subnets > 0
   create_connectivity_route_table = local.create_connectivity_subnets && var.create_connectivity_subnet_route_table
 }
 
 resource "aws_subnet" "connectivity" {
   count = local.create_connectivity_subnets ? local.len_connectivity_subnets : 0
 
-  availability_zone                              = length(regexall("^[a-z]{2}-", element(local.azs, count.index))) > 0 ? element(local.azs, count.index) : null
-  availability_zone_id                           = length(regexall("^[a-z]{2}-", element(local.azs, count.index))) == 0 ? element(local.azs, count.index) : null
-  cidr_block                                     = element(concat(local.connectivity_subnets, [""]), count.index)
-  enable_resource_name_dns_a_record_on_launch    = var.connectivity_subnet_enable_resource_name_dns_a_record_on_launch
-  private_dns_hostname_type_on_launch            = var.private_dns_hostname_type_on_launch
-  vpc_id = local.vpc_id
+  availability_zone                           = length(regexall("^[a-z]{2}-", element(local.azs, count.index))) > 0 ? element(local.azs, count.index) : null
+  availability_zone_id                        = length(regexall("^[a-z]{2}-", element(local.azs, count.index))) == 0 ? element(local.azs, count.index) : null
+  cidr_block                                  = element(concat(local.connectivity_subnets, [""]), count.index)
+  enable_resource_name_dns_a_record_on_launch = var.connectivity_subnet_enable_resource_name_dns_a_record_on_launch
+  private_dns_hostname_type_on_launch         = var.private_dns_hostname_type_on_launch
+  vpc_id                                      = local.vpc_id
 
   tags = merge(
     {
@@ -35,7 +35,7 @@ resource "aws_route_table" "connectivity" {
 
   tags = merge(
     {
-      "Name" = var.single_nat_gateway ? "${var.name}-${var.connectivity_subnet_suffix}" : format(
+      "Name" = var.single_nat_gateway || local.nat_gateway_count == 0 ? "${var.name}-${var.connectivity_subnet_suffix}" : format(
         "${var.name}-${var.connectivity_subnet_suffix}-%s",
         element(local.azs, count.index),
       )
