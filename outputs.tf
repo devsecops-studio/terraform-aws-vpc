@@ -249,6 +249,30 @@ output "lb_internal_route_table_ids" {
 }
 
 # ################################################################################
+# # Other Public Subnets
+# ################################################################################
+
+output "others_public_subnets" {
+  description = "List of IDs of other public subnets"
+  value       = aws_subnet.others_public[*].id
+}
+
+output "others_public_subnet_arns" {
+  description = "List of ARNs of other public subnets"
+  value       = aws_subnet.others_public[*].arn
+}
+
+output "others_public_subnets_cidr_blocks" {
+  description = "List of cidr_blocks of other public subnets"
+  value       = compact(aws_subnet.others_public[*].cidr_block)
+}
+
+output "others_public_route_table_ids" {
+  description = "List of IDs of others public route tables"
+  value       = try(aws_route_table.others_public[*].id, null)
+}
+
+# ################################################################################
 # # Other Private Subnets
 # ################################################################################
 
