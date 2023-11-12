@@ -127,7 +127,7 @@ resource "aws_route_table" "private" {
 
   tags = merge(
     {
-      "Name" = var.single_nat_gateway ? "${var.name}-private" : format(
+      "Name" = var.single_nat_gateway || local.nat_gateway_count == 0 ? "${var.name}-private" : format(
         "${var.name}-private-%s",
         element(local.azs, count.index),
       )
