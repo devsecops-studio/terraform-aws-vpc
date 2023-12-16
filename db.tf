@@ -10,10 +10,17 @@ resource "aws_subnet" "db" {
 
   availability_zone                              = length(regexall("^[a-z]{2}-", element(local.azs, count.index))) > 0 ? element(local.azs, count.index) : null
   availability_zone_id                           = length(regexall("^[a-z]{2}-", element(local.azs, count.index))) == 0 ? element(local.azs, count.index) : null
-  cidr_block                                     = element(concat(local.db_subnets, [""]), count.index)
-  enable_resource_name_dns_a_record_on_launch    = var.db_subnet_enable_resource_name_dns_a_record_on_launch
-  private_dns_hostname_type_on_launch            = var.private_dns_hostname_type_on_launch
-  vpc_id                                         = local.vpc_id
+  cidr_block                                     = var.ipv6_native ? null : element(concat(local.db_subnets, [""]), count.index)
+  enable_resource_name_dns_a_record_on_launch    = !var.ipv6_native && var.db_subnet_enable_resource_name_dns_a_record_on_launch
+  enable_resource_name_dns_aaaa_record_on_launch = var.enable_ipv6 && var.enable_resource_name_dns_aaaa_record_on_launch
+  private_dns_hostname_type_on_launch            = !var.ipv6_native ? var.private_dns_hostname_type_on_launch : "resource-name"
+
+  assign_ipv6_address_on_creation = var.enable_ipv6 && var.ipv6_native ? true : false
+  enable_dns64                    = var.enable_ipv6 && var.enable_dns64
+  ipv6_cidr_block                 = var.enable_ipv6 ? cidrsubnet(aws_vpc.this[0].ipv6_cidr_block, 8, local.ipv6_prefixes.db[count.index]) : null
+  ipv6_native                     = var.enable_ipv6 && var.ipv6_native
+
+  vpc_id = local.vpc_id
 
   tags = merge(
     {
@@ -28,7 +35,7 @@ resource "aws_subnet" "db" {
 }
 
 resource "aws_db_subnet_group" "db" {
-  count = local.create_db_subnets && var.create_db_subnet_group ? 1 : 0
+  count = local.create_db_subnets && !var.ipv6_native && var.create_db_subnet_group ? 1 : 0
 
   name        = lower(coalesce(var.db_subnet_group_name, var.name))
   description = "Database subnet group for ${var.name}"
@@ -44,7 +51,7 @@ resource "aws_db_subnet_group" "db" {
 }
 
 resource "aws_route_table" "db" {
-  count = local.create_db_route_table ? var.single_nat_gateway || var.create_db_internet_gateway_route || !var.create_db_nat_gateway_route ? 1 : local.nat_gateway_count : 0
+  count = local.create_db_route_table ? var.single_nat_gateway || var.create_db_internet_gateway_route || var.create_db_egress_internet_gateway_route || !var.create_db_nat_gateway_route ? 1 : local.nat_gateway_count : 0
 
   vpc_id = local.vpc_id
 
@@ -112,8 +119,20 @@ resource "aws_route" "db_internet_gateway" {
   }
 }
 
+resource "aws_route" "db_egress_internet_gateway" {
+  count = local.create_db_route_table && var.ipv6_native && var.create_db_egress_internet_gateway_route ? 1 : 0
+
+  route_table_id              = aws_route_table.db[0].id
+  destination_ipv6_cidr_block = "::/0"
+  egress_only_gateway_id      = element(aws_egress_only_internet_gateway.this[*].id, 0)
+
+  timeouts {
+    create = "5m"
+  }
+}
+
 resource "aws_route" "db_nat_gateway" {
-  count = local.create_db_route_table && !var.create_db_internet_gateway_route && var.create_db_nat_gateway_route && var.enable_nat_gateway ? var.single_nat_gateway ? 1 : local.len_db_subnets : 0
+  count = local.create_db_route_table && !var.ipv6_native && !var.create_db_internet_gateway_route && var.create_db_nat_gateway_route && var.enable_nat_gateway ? var.single_nat_gateway ? 1 : local.len_db_subnets : 0
 
   route_table_id         = element(aws_route_table.db[*].id, count.index)
   destination_cidr_block = "0.0.0.0/0"

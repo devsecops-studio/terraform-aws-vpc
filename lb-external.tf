@@ -8,12 +8,19 @@ locals {
 resource "aws_subnet" "lb_external" {
   count = local.create_lb_external_subnets && (!var.one_nat_gateway_per_az || local.len_lb_external_subnets >= length(local.azs)) ? local.len_lb_external_subnets : 0
 
-  availability_zone                           = length(regexall("^[a-z]{2}-", element(local.azs, count.index))) > 0 ? element(local.azs, count.index) : null
-  availability_zone_id                        = length(regexall("^[a-z]{2}-", element(local.azs, count.index))) == 0 ? element(local.azs, count.index) : null
-  cidr_block                                  = element(concat(local.lb_external_subnets, [""]), count.index)
-  enable_resource_name_dns_a_record_on_launch = var.lb_external_subnet_enable_resource_name_dns_a_record_on_launch
-  private_dns_hostname_type_on_launch         = var.private_dns_hostname_type_on_launch
-  vpc_id                                      = local.vpc_id
+  availability_zone                              = length(regexall("^[a-z]{2}-", element(local.azs, count.index))) > 0 ? element(local.azs, count.index) : null
+  availability_zone_id                           = length(regexall("^[a-z]{2}-", element(local.azs, count.index))) == 0 ? element(local.azs, count.index) : null
+  cidr_block                                     = var.ipv6_native ? null : element(concat(local.lb_external_subnets, [""]), count.index)
+  enable_resource_name_dns_a_record_on_launch    = !var.ipv6_native && var.lb_external_subnet_enable_resource_name_dns_a_record_on_launch
+  enable_resource_name_dns_aaaa_record_on_launch = var.enable_ipv6 && var.enable_resource_name_dns_aaaa_record_on_launch
+  private_dns_hostname_type_on_launch            = !var.ipv6_native ? var.private_dns_hostname_type_on_launch : "resource-name"
+
+  assign_ipv6_address_on_creation = var.enable_ipv6 && var.ipv6_native ? true : false
+  enable_dns64                    = var.enable_ipv6 && var.enable_dns64
+  ipv6_cidr_block                 = var.enable_ipv6 ? cidrsubnet(aws_vpc.this[0].ipv6_cidr_block, 8, local.ipv6_prefixes.lb_external[count.index]) : null
+  ipv6_native                     = var.enable_ipv6 && var.ipv6_native
+
+  vpc_id = local.vpc_id
 
   tags = merge(
     {

@@ -8,12 +8,20 @@ locals {
 resource "aws_subnet" "connectivity" {
   count = local.create_connectivity_subnets ? local.len_connectivity_subnets : 0
 
-  availability_zone                           = length(regexall("^[a-z]{2}-", element(local.azs, count.index))) > 0 ? element(local.azs, count.index) : null
-  availability_zone_id                        = length(regexall("^[a-z]{2}-", element(local.azs, count.index))) == 0 ? element(local.azs, count.index) : null
-  cidr_block                                  = element(concat(local.connectivity_subnets, [""]), count.index)
-  enable_resource_name_dns_a_record_on_launch = var.connectivity_subnet_enable_resource_name_dns_a_record_on_launch
-  private_dns_hostname_type_on_launch         = var.private_dns_hostname_type_on_launch
-  vpc_id                                      = local.vpc_id
+  availability_zone                              = length(regexall("^[a-z]{2}-", element(local.azs, count.index))) > 0 ? element(local.azs, count.index) : null
+  availability_zone_id                           = length(regexall("^[a-z]{2}-", element(local.azs, count.index))) == 0 ? element(local.azs, count.index) : null
+  cidr_block                                     = var.ipv6_native ? null : element(concat(local.connectivity_subnets, [""]), count.index)
+  enable_resource_name_dns_a_record_on_launch    = var.ipv6_native ? null : var.connectivity_subnet_enable_resource_name_dns_a_record_on_launch
+  enable_resource_name_dns_aaaa_record_on_launch = var.enable_ipv6 && var.enable_resource_name_dns_aaaa_record_on_launch
+  map_public_ip_on_launch                        = !var.ipv6_native ? false : null
+  private_dns_hostname_type_on_launch            = !var.ipv6_native ? var.private_dns_hostname_type_on_launch : "resource-name"
+
+  assign_ipv6_address_on_creation = var.enable_ipv6 && var.ipv6_native ? true : false
+  enable_dns64                    = var.enable_ipv6 && var.enable_dns64
+  ipv6_cidr_block                 = var.enable_ipv6 ? cidrsubnet(aws_vpc.this[0].ipv6_cidr_block, 8, local.ipv6_prefixes.connectivity[count.index]) : null
+  ipv6_native                     = var.enable_ipv6 && var.ipv6_native
+
+  vpc_id = local.vpc_id
 
   tags = merge(
     {
@@ -29,13 +37,13 @@ resource "aws_subnet" "connectivity" {
 }
 
 resource "aws_route_table" "connectivity" {
-  count = local.create_connectivity_route_table ? local.nat_gateway_count > 0 ? local.nat_gateway_count : 1 : 0
+  count = local.create_connectivity_route_table ? local.nat_gateway_count > 0 && !var.ipv6_native ? local.nat_gateway_count : 1 : 0
 
   vpc_id = local.vpc_id
 
   tags = merge(
     {
-      "Name" = var.single_nat_gateway || local.nat_gateway_count == 0 ? "${var.name}-${var.connectivity_subnet_suffix}" : format(
+      "Name" = var.single_nat_gateway || local.nat_gateway_count == 0 || var.ipv6_native ? "${var.name}-${var.connectivity_subnet_suffix}" : format(
         "${var.name}-${var.connectivity_subnet_suffix}-%s",
         element(local.azs, count.index),
       )
@@ -56,11 +64,23 @@ resource "aws_route_table_association" "connectivity" {
 }
 
 resource "aws_route" "connectivity_nat_gateway" {
-  count = local.create_connectivity_route_table && var.create_connectivity_nat_gateway_route && var.enable_nat_gateway ? var.single_nat_gateway ? 1 : local.nat_gateway_count : 0
+  count = local.create_connectivity_route_table && !var.ipv6_native && var.create_connectivity_nat_gateway_route && var.enable_nat_gateway ? var.single_nat_gateway ? 1 : local.nat_gateway_count : 0
 
   route_table_id         = element(aws_route_table.connectivity[*].id, count.index)
   destination_cidr_block = "0.0.0.0/0"
   nat_gateway_id         = element(aws_nat_gateway.this[*].id, count.index)
+
+  timeouts {
+    create = "5m"
+  }
+}
+
+resource "aws_route" "connectivity_egress_internet_gateway" {
+  count = local.create_connectivity_route_table && var.ipv6_native && var.create_connectivity_egress_internet_gateway_route ? var.single_nat_gateway ? 1 : local.nat_gateway_count : 0
+
+  route_table_id              = element(aws_route_table.connectivity[*].id, count.index)
+  destination_ipv6_cidr_block = "::/0"
+  egress_only_gateway_id      = element(aws_egress_only_internet_gateway.this[*].id, 0)
 
   timeouts {
     create = "5m"

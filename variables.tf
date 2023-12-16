@@ -55,10 +55,28 @@ variable "enable_network_address_usage_metrics" {
   default     = null
 }
 
-variable "ipv6_cidr" {
-  description = "(Optional) IPv6 CIDR block to request from an IPAM Pool. Can be set explicitly or derived from IPAM using `ipv6_netmask_length`"
-  type        = string
-  default     = null
+variable "enable_ipv6" {
+  description = "Requests an Amazon-provided IPv6 CIDR block with a /56 prefix length for the VPC. You cannot specify the range of IP addresses, or the size of the CIDR block"
+  type        = bool
+  default     = false
+}
+
+variable "ipv6_native" {
+  description = "Indicates whether to create an IPv6-only subnet. Default: `false`"
+  type        = bool
+  default     = false
+}
+
+variable "enable_dns64" {
+  description = "Indicates whether DNS queries made to the Amazon-provided DNS Resolver in this subnet should return synthetic IPv6 addresses for IPv4-only destinations. Default: `true`"
+  type        = bool
+  default     = true
+}
+
+variable "enable_resource_name_dns_aaaa_record_on_launch" {
+  description = "Indicates whether to respond to DNS queries for instance hostnames with DNS AAAA records. Default: `true`"
+  type        = bool
+  default     = true
 }
 
 variable "vpc_tags" {
@@ -799,6 +817,12 @@ variable "create_db_internet_gateway_route" {
   default     = false
 }
 
+variable "create_db_egress_internet_gateway_route" {
+  description = "Controls if an egrss internet gateway route for public database access should be created"
+  type        = bool
+  default     = false
+}
+
 variable "create_db_nat_gateway_route" {
   description = "Controls if a nat gateway route should be created to give internet access to the database subnets"
   type        = bool
@@ -921,6 +945,12 @@ variable "create_cache_subnet_route_table" {
 
 variable "create_cache_internet_gateway_route" {
   description = "Controls if an internet gateway route for public cache access should be created"
+  type        = bool
+  default     = false
+}
+
+variable "create_cache_egress_internet_gateway_route" {
+  description = "Controls if an egress internet gateway route for public cache access should be created"
   type        = bool
   default     = false
 }
@@ -1129,6 +1159,12 @@ variable "create_connectivity_nat_gateway_route" {
   default     = false
 }
 
+variable "create_connectivity_egress_internet_gateway_route" {
+  description = "Controls if a egrss internet gateway route should be created to give internet access to the Connectivity subnets"
+  type        = bool
+  default     = false
+}
+
 variable "connectivity_subnet_tags" {
   description = "Additional tags for the Connectivity subnets"
   type        = map(string)
@@ -1202,7 +1238,13 @@ variable "create_igw" {
 }
 
 variable "create_egress_only_igw" {
-  description = "Controls if an Egress Only Internet Gateway is created and its related routes"
+  description = "Controls if an Egress Only Internet Gateway is created"
+  type        = bool
+  default     = true
+}
+
+variable "create_default_route_eigw" {
+  description = "Controls if a route for Egress Only Internet Gateway is created"
   type        = bool
   default     = true
 }
