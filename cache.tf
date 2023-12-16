@@ -10,10 +10,17 @@ resource "aws_subnet" "cache" {
 
   availability_zone                              = length(regexall("^[a-z]{2}-", element(local.azs, count.index))) > 0 ? element(local.azs, count.index) : null
   availability_zone_id                           = length(regexall("^[a-z]{2}-", element(local.azs, count.index))) == 0 ? element(local.azs, count.index) : null
-  cidr_block                                     = element(concat(local.cache_subnets, [""]), count.index)
-  enable_resource_name_dns_a_record_on_launch    = var.cache_subnet_enable_resource_name_dns_a_record_on_launch
-  private_dns_hostname_type_on_launch            = var.private_dns_hostname_type_on_launch
-  vpc_id                                         = local.vpc_id
+  cidr_block                                     = var.ipv6_native ? null : element(concat(local.cache_subnets, [""]), count.index)
+  enable_resource_name_dns_a_record_on_launch    = !var.ipv6_native && var.cache_subnet_enable_resource_name_dns_a_record_on_launch
+  enable_resource_name_dns_aaaa_record_on_launch = var.enable_ipv6 && var.enable_resource_name_dns_aaaa_record_on_launch
+  private_dns_hostname_type_on_launch            = !var.ipv6_native ? var.private_dns_hostname_type_on_launch : "resource-name"
+
+  assign_ipv6_address_on_creation = var.enable_ipv6 && var.ipv6_native ? true : false
+  enable_dns64                    = var.enable_ipv6 && var.enable_dns64
+  ipv6_cidr_block                 = var.enable_ipv6 ? cidrsubnet(aws_vpc.this[0].ipv6_cidr_block, 8, local.ipv6_prefixes.cache[count.index]) : null
+  ipv6_native                     = var.enable_ipv6 && var.ipv6_native
+
+  vpc_id = local.vpc_id
 
   tags = merge(
     {
@@ -99,11 +106,23 @@ resource "aws_route_table_association" "cache" {
 }
 
 resource "aws_route" "cache_internet_gateway" {
-  count = local.create_cache_route_table && var.create_igw && var.create_cache_internet_gateway_route && !var.create_cache_nat_gateway_route ? 1 : 0
+  count = local.create_cache_route_table && !var.ipv6_native && var.create_igw && var.create_cache_internet_gateway_route && !var.create_cache_nat_gateway_route ? 1 : 0
 
   route_table_id         = aws_route_table.cache[0].id
   destination_cidr_block = "0.0.0.0/0"
   gateway_id             = aws_internet_gateway.this[0].id
+
+  timeouts {
+    create = "5m"
+  }
+}
+
+resource "aws_route" "cache_egress_internet_gateway" {
+  count = local.create_cache_route_table && var.ipv6_native && var.create_cache_egress_internet_gateway_route ? 1 : 0
+
+  route_table_id              = aws_route_table.cache[0].id
+  destination_ipv6_cidr_block = "::/0"
+  egress_only_gateway_id      = element(aws_egress_only_internet_gateway.this[*].id, 0)
 
   timeouts {
     create = "5m"

@@ -39,7 +39,7 @@ resource "aws_vpc" "this" {
 
   cidr_block = local.cidr
 
-  # TODO support IPv6
+  assign_generated_ipv6_cidr_block = var.enable_ipv6 ? true : null
 
   instance_tenancy                     = var.instance_tenancy
   enable_dns_hostnames                 = var.enable_dns_hostnames
@@ -116,18 +116,30 @@ resource "aws_route" "public" {
   }
 }
 
+resource "aws_route" "public_ipv6" {
+  count = local.create_vpc && (var.enable_ipv6 || var.ipv6_native) ? 1 : 0
+
+  route_table_id              = aws_route_table.public[0].id
+  destination_ipv6_cidr_block = "::/0"
+  gateway_id                  = aws_internet_gateway.this[0].id
+
+  timeouts {
+    create = "5m"
+  }
+}
+
 ################################################################################
 # Private Route Table
 ################################################################################
 
 resource "aws_route_table" "private" {
-  count = local.max_subnet_length > 0 ? local.nat_gateway_count > 0 ? local.nat_gateway_count : 1 : 0
+  count = local.max_subnet_length > 0 ? local.nat_gateway_count > 0 && !var.ipv6_native ? local.nat_gateway_count : 1 : 0
 
   vpc_id = local.vpc_id
 
   tags = merge(
     {
-      "Name" = var.single_nat_gateway || local.nat_gateway_count == 0 ? "${var.name}-private" : format(
+      "Name" = var.single_nat_gateway || var.ipv6_native || local.nat_gateway_count == 0 ? "${var.name}-private" : format(
         "${var.name}-private-%s",
         element(local.azs, count.index),
       )
@@ -152,6 +164,30 @@ resource "aws_internet_gateway" "this" {
   )
 }
 
+resource "aws_egress_only_internet_gateway" "this" {
+  count = local.create_vpc && var.enable_ipv6 && (var.create_egress_only_igw || var.ipv6_native) && local.max_subnet_length > 0 ? 1 : 0
+
+  vpc_id = local.vpc_id
+
+  tags = merge(
+    { "Name" = "eigw-${var.name}" },
+    var.tags,
+    var.igw_tags,
+  )
+}
+
+resource "aws_route" "egress_internet_gateway" {
+  count = local.create_vpc && var.enable_ipv6 && (var.create_egress_only_igw || var.ipv6_native) && local.max_subnet_length > 0 && var.create_default_route_eigw ? 1 : 0
+
+  route_table_id              = element(aws_route_table.private[*].id, count.index)
+  destination_ipv6_cidr_block = "::/0"
+  egress_only_gateway_id      = element(aws_egress_only_internet_gateway.this[*].id, 0)
+
+  timeouts {
+    create = "5m"
+  }
+}
+
 ################################################################################
 # NAT Gateway
 ################################################################################
@@ -162,9 +198,9 @@ locals {
 }
 
 resource "aws_eip" "nat" {
-  count = local.create_vpc && var.enable_nat_gateway && !var.reuse_nat_ips ? local.nat_gateway_count : 0
+  count = local.create_vpc && !var.ipv6_native && var.enable_nat_gateway && !var.reuse_nat_ips ? local.nat_gateway_count : 0
 
-  vpc = true
+  domain = "vpc"
 
   tags = merge(
     {
@@ -179,7 +215,7 @@ resource "aws_eip" "nat" {
 }
 
 resource "aws_nat_gateway" "this" {
-  count = local.create_vpc && var.enable_nat_gateway ? local.nat_gateway_count : 0
+  count = local.create_vpc && !var.ipv6_native && var.enable_nat_gateway ? local.nat_gateway_count : 0
 
   allocation_id = element(
     local.nat_gateway_ips,
@@ -205,7 +241,7 @@ resource "aws_nat_gateway" "this" {
 }
 
 resource "aws_route" "private_nat_gateway" {
-  count = local.create_vpc && var.enable_nat_gateway ? local.nat_gateway_count : 0
+  count = local.create_vpc && !var.ipv6_native && var.enable_nat_gateway ? local.nat_gateway_count : 0
 
   route_table_id         = element(aws_route_table.private[*].id, count.index)
   destination_cidr_block = "0.0.0.0/0"

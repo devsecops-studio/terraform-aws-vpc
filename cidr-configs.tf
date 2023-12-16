@@ -13,4 +13,17 @@ locals {
     connectivity   = ["1.128/25", "14.0/25", "14.128/25"]
     spare          = ["15.0/24"]
   }
+  ipv6_prefixes = {
+    lb_external    = [0, 1, 2]
+    lb_internal    = [3, 4, 5]
+    ec2_public     = [6, 7, 8]
+    ec2_private    = [9, 10, 11]
+    others_public  = [12, 13, 14]
+    others_private = [15, 16, 17]
+    ecs            = [18, 19, 20]
+    cache          = [21, 22, 23]
+    db             = [24, 25, 26]
+    eks            = [27, 28, 29]
+    connectivity   = [30, 31, 32]
+  }
 }
