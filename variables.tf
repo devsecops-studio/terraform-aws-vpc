@@ -202,6 +202,14 @@ variable "lb_external_inbound_acl_rules" {
       protocol    = "-1"
       cidr_block  = "0.0.0.0/0"
     },
+    {
+      rule_number = 101
+      rule_action = "allow"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      ipv6_cidr_block  = "::/0"
+    },
   ]
 }
 
@@ -216,6 +224,14 @@ variable "lb_external_outbound_acl_rules" {
       to_port     = 0
       protocol    = "-1"
       cidr_block  = "0.0.0.0/0"
+    },
+    {
+      rule_number = 101
+      rule_action = "allow"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      ipv6_cidr_block  = "::/0"
     },
   ]
 }
@@ -298,6 +314,14 @@ variable "lb_internal_inbound_acl_rules" {
       protocol    = "-1"
       cidr_block  = "0.0.0.0/0"
     },
+    {
+      rule_number = 101
+      rule_action = "allow"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      ipv6_cidr_block  = "::/0"
+    },
   ]
 }
 
@@ -312,6 +336,14 @@ variable "lb_internal_outbound_acl_rules" {
       to_port     = 0
       protocol    = "-1"
       cidr_block  = "0.0.0.0/0"
+    },
+    {
+      rule_number = 101
+      rule_action = "allow"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      ipv6_cidr_block  = "::/0"
     },
   ]
 }
@@ -394,6 +426,14 @@ variable "ec2_public_inbound_acl_rules" {
       protocol    = "-1"
       cidr_block  = "0.0.0.0/0"
     },
+    {
+      rule_number = 101
+      rule_action = "allow"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      ipv6_cidr_block  = "::/0"
+    },
   ]
 }
 
@@ -408,6 +448,14 @@ variable "ec2_public_outbound_acl_rules" {
       to_port     = 0
       protocol    = "-1"
       cidr_block  = "0.0.0.0/0"
+    },
+    {
+      rule_number = 101
+      rule_action = "allow"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      ipv6_cidr_block  = "::/0"
     },
   ]
 }
@@ -484,6 +532,14 @@ variable "ec2_private_inbound_acl_rules" {
       protocol    = "-1"
       cidr_block  = "0.0.0.0/0"
     },
+    {
+      rule_number = 101
+      rule_action = "allow"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      ipv6_cidr_block  = "::/0"
+    },
   ]
 }
 
@@ -498,6 +554,14 @@ variable "ec2_private_outbound_acl_rules" {
       to_port     = 0
       protocol    = "-1"
       cidr_block  = "0.0.0.0/0"
+    },
+    {
+      rule_number = 101
+      rule_action = "allow"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      ipv6_cidr_block  = "::/0"
     },
   ]
 }
@@ -574,6 +638,14 @@ variable "others_public_inbound_acl_rules" {
       protocol    = "-1"
       cidr_block  = "0.0.0.0/0"
     },
+    {
+      rule_number = 101
+      rule_action = "allow"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      ipv6_cidr_block  = "::/0"
+    },
   ]
 }
 
@@ -588,6 +660,14 @@ variable "others_public_outbound_acl_rules" {
       to_port     = 0
       protocol    = "-1"
       cidr_block  = "0.0.0.0/0"
+    },
+    {
+      rule_number = 101
+      rule_action = "allow"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      ipv6_cidr_block  = "::/0"
     },
   ]
 }
@@ -664,6 +744,14 @@ variable "others_private_inbound_acl_rules" {
       protocol    = "-1"
       cidr_block  = "0.0.0.0/0"
     },
+    {
+      rule_number = 101
+      rule_action = "allow"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      ipv6_cidr_block  = "::/0"
+    },
   ]
 }
 
@@ -678,6 +766,14 @@ variable "others_private_outbound_acl_rules" {
       to_port     = 0
       protocol    = "-1"
       cidr_block  = "0.0.0.0/0"
+    },
+    {
+      rule_number = 101
+      rule_action = "allow"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      ipv6_cidr_block  = "::/0"
     },
   ]
 }
@@ -754,6 +850,14 @@ variable "ecs_inbound_acl_rules" {
       protocol    = "-1"
       cidr_block  = "0.0.0.0/0"
     },
+    {
+      rule_number = 101
+      rule_action = "allow"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      ipv6_cidr_block  = "::/0"
+    },
   ]
 }
 
@@ -768,6 +872,14 @@ variable "ecs_outbound_acl_rules" {
       to_port     = 0
       protocol    = "-1"
       cidr_block  = "0.0.0.0/0"
+    },
+    {
+      rule_number = 101
+      rule_action = "allow"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      ipv6_cidr_block  = "::/0"
     },
   ]
 }
@@ -880,6 +992,14 @@ variable "db_inbound_acl_rules" {
       protocol    = "-1"
       cidr_block  = "0.0.0.0/0"
     },
+    {
+      rule_number = 101
+      rule_action = "allow"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      ipv6_cidr_block  = "::/0"
+    },
   ]
 }
 
@@ -894,6 +1014,14 @@ variable "db_outbound_acl_rules" {
       to_port     = 0
       protocol    = "-1"
       cidr_block  = "0.0.0.0/0"
+    },
+    {
+      rule_number = 101
+      rule_action = "allow"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      ipv6_cidr_block  = "::/0"
     },
   ]
 }
@@ -1006,6 +1134,14 @@ variable "cache_inbound_acl_rules" {
       protocol    = "-1"
       cidr_block  = "0.0.0.0/0"
     },
+    {
+      rule_number = 101
+      rule_action = "allow"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      ipv6_cidr_block  = "::/0"
+    },
   ]
 }
 
@@ -1020,6 +1156,14 @@ variable "cache_outbound_acl_rules" {
       to_port     = 0
       protocol    = "-1"
       cidr_block  = "0.0.0.0/0"
+    },
+    {
+      rule_number = 101
+      rule_action = "allow"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      ipv6_cidr_block  = "::/0"
     },
   ]
 }
@@ -1096,6 +1240,14 @@ variable "eks_inbound_acl_rules" {
       protocol    = "-1"
       cidr_block  = "0.0.0.0/0"
     },
+    {
+      rule_number = 101
+      rule_action = "allow"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      ipv6_cidr_block  = "::/0"
+    },
   ]
 }
 
@@ -1110,6 +1262,14 @@ variable "eks_outbound_acl_rules" {
       to_port     = 0
       protocol    = "-1"
       cidr_block  = "0.0.0.0/0"
+    },
+    {
+      rule_number = 101
+      rule_action = "allow"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      ipv6_cidr_block  = "::/0"
     },
   ]
 }
@@ -1204,6 +1364,14 @@ variable "connectivity_inbound_acl_rules" {
       protocol    = "-1"
       cidr_block  = "0.0.0.0/0"
     },
+    {
+      rule_number = 101
+      rule_action = "allow"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      ipv6_cidr_block  = "::/0"
+    },
   ]
 }
 
@@ -1218,6 +1386,14 @@ variable "connectivity_outbound_acl_rules" {
       to_port     = 0
       protocol    = "-1"
       cidr_block  = "0.0.0.0/0"
+    },
+    {
+      rule_number = 101
+      rule_action = "allow"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      ipv6_cidr_block  = "::/0"
     },
   ]
 }
