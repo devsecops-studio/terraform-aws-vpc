@@ -26,6 +26,14 @@ variable "inbound_acl_rules" {
       protocol    = "-1"
       cidr_block  = "0.0.0.0/0"
     },
+    {
+      rule_number     = 101
+      rule_action     = "allow"
+      from_port       = 0
+      to_port         = 0
+      protocol        = "-1"
+      ipv6_cidr_block = "::/0"
+    },
   ]
 }
 
@@ -40,6 +48,14 @@ variable "outbound_acl_rules" {
       to_port     = 0
       protocol    = "-1"
       cidr_block  = "0.0.0.0/0"
+    },
+    {
+      rule_number     = 101
+      rule_action     = "allow"
+      from_port       = 0
+      to_port         = 0
+      protocol        = "-1"
+      ipv6_cidr_block = "::/0"
     },
   ]
 }
