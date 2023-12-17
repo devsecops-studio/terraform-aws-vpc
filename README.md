@@ -65,25 +65,34 @@ This module aims to pre-define a set of subnets for a VPC. It's definitely not p
 | [aws_default_route_table.default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/default_route_table) | resource |
 | [aws_default_security_group.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/default_security_group) | resource |
 | [aws_default_vpc.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/default_vpc) | resource |
+| [aws_egress_only_internet_gateway.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/egress_only_internet_gateway) | resource |
 | [aws_eip.nat](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eip) | resource |
 | [aws_elasticache_subnet_group.cache](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/elasticache_subnet_group) | resource |
 | [aws_internet_gateway.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/internet_gateway) | resource |
 | [aws_nat_gateway.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/nat_gateway) | resource |
+| [aws_route.cache_egress_internet_gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
 | [aws_route.cache_internet_gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
 | [aws_route.cache_nat_gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
+| [aws_route.connectivity_egress_internet_gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
 | [aws_route.connectivity_nat_gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
+| [aws_route.db_egress_internet_gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
 | [aws_route.db_internet_gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
 | [aws_route.db_nat_gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
+| [aws_route.ec2_private_egress_internet_gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
 | [aws_route.ec2_private_nat_gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
 | [aws_route.ec2_public_internet_gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
+| [aws_route.ecs_egress_internet_gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
 | [aws_route.ecs_nat_gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
+| [aws_route.egress_internet_gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
+| [aws_route.eks_egress_internet_gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
 | [aws_route.eks_nat_gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
 | [aws_route.lb_external_internet_gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
-| [aws_route.lb_internal_nat_gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
+| [aws_route.others_private_egress_internet_gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
 | [aws_route.others_private_nat_gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
 | [aws_route.others_public_internet_gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
 | [aws_route.private_nat_gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
 | [aws_route.public](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
+| [aws_route.public_ipv6](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
 | [aws_route_table.cache](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table) | resource |
 | [aws_route_table.connectivity](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table) | resource |
 | [aws_route_table.db](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table) | resource |
@@ -157,26 +166,30 @@ This module aims to pre-define a set of subnets for a VPC. It's definitely not p
 | <a name="input_connectivity_subnet_suffix"></a> [connectivity\_subnet\_suffix](#input\_connectivity\_subnet\_suffix) | Suffix to append to Connectivity subnets name | `string` | `"connectivity"` | no |
 | <a name="input_connectivity_subnet_tags"></a> [connectivity\_subnet\_tags](#input\_connectivity\_subnet\_tags) | Additional tags for the Connectivity subnets | `map(string)` | `{}` | no |
 | <a name="input_connectivity_subnet_tags_per_az"></a> [connectivity\_subnet\_tags\_per\_az](#input\_connectivity\_subnet\_tags\_per\_az) | Additional tags for the Connectivity subnets where the primary key is the AZ | `map(map(string))` | `{}` | no |
+| <a name="input_create_cache_egress_internet_gateway_route"></a> [create\_cache\_egress\_internet\_gateway\_route](#input\_create\_cache\_egress\_internet\_gateway\_route) | Controls if an egress internet gateway route for public cache access should be created | `bool` | `false` | no |
 | <a name="input_create_cache_internet_gateway_route"></a> [create\_cache\_internet\_gateway\_route](#input\_create\_cache\_internet\_gateway\_route) | Controls if an internet gateway route for public cache access should be created | `bool` | `false` | no |
 | <a name="input_create_cache_nat_gateway_route"></a> [create\_cache\_nat\_gateway\_route](#input\_create\_cache\_nat\_gateway\_route) | Controls if a nat gateway route should be created to give internet access to the cache subnets | `bool` | `false` | no |
 | <a name="input_create_cache_subnet_group"></a> [create\_cache\_subnet\_group](#input\_create\_cache\_subnet\_group) | Controls if cache subnet group should be created | `bool` | `true` | no |
 | <a name="input_create_cache_subnet_route_table"></a> [create\_cache\_subnet\_route\_table](#input\_create\_cache\_subnet\_route\_table) | Controls if separate route table for cache should be created | `bool` | `false` | no |
 | <a name="input_create_cache_subnets"></a> [create\_cache\_subnets](#input\_create\_cache\_subnets) | Wheter or not to create cache subnets. Default: `false` | `bool` | `false` | no |
+| <a name="input_create_connectivity_egress_internet_gateway_route"></a> [create\_connectivity\_egress\_internet\_gateway\_route](#input\_create\_connectivity\_egress\_internet\_gateway\_route) | Controls if a egrss internet gateway route should be created to give internet access to the Connectivity subnets | `bool` | `false` | no |
 | <a name="input_create_connectivity_nat_gateway_route"></a> [create\_connectivity\_nat\_gateway\_route](#input\_create\_connectivity\_nat\_gateway\_route) | Controls if a nat gateway route should be created to give internet access to the Connectivity subnets | `bool` | `false` | no |
 | <a name="input_create_connectivity_subnet_route_table"></a> [create\_connectivity\_subnet\_route\_table](#input\_create\_connectivity\_subnet\_route\_table) | Controls if separate route table for Connectivity subnets should be created. Default: `true` | `bool` | `true` | no |
 | <a name="input_create_connectivity_subnets"></a> [create\_connectivity\_subnets](#input\_create\_connectivity\_subnets) | Wheter or not to create Connectivity subnets. Default: `true` | `bool` | `true` | no |
+| <a name="input_create_db_egress_internet_gateway_route"></a> [create\_db\_egress\_internet\_gateway\_route](#input\_create\_db\_egress\_internet\_gateway\_route) | Controls if an egrss internet gateway route for public database access should be created | `bool` | `false` | no |
 | <a name="input_create_db_internet_gateway_route"></a> [create\_db\_internet\_gateway\_route](#input\_create\_db\_internet\_gateway\_route) | Controls if an internet gateway route for public database access should be created | `bool` | `false` | no |
 | <a name="input_create_db_nat_gateway_route"></a> [create\_db\_nat\_gateway\_route](#input\_create\_db\_nat\_gateway\_route) | Controls if a nat gateway route should be created to give internet access to the database subnets | `bool` | `false` | no |
 | <a name="input_create_db_subnet_group"></a> [create\_db\_subnet\_group](#input\_create\_db\_subnet\_group) | Controls if database subnet group should be created (n.b. database\_subnets must also be set) | `bool` | `true` | no |
 | <a name="input_create_db_subnet_route_table"></a> [create\_db\_subnet\_route\_table](#input\_create\_db\_subnet\_route\_table) | Controls if separate route table for database should be created | `bool` | `false` | no |
 | <a name="input_create_db_subnets"></a> [create\_db\_subnets](#input\_create\_db\_subnets) | Wheter or not to create database subnets. Default: `false` | `bool` | `false` | no |
+| <a name="input_create_default_route_eigw"></a> [create\_default\_route\_eigw](#input\_create\_default\_route\_eigw) | Controls if a route for Egress Only Internet Gateway is created | `bool` | `true` | no |
 | <a name="input_create_ec2_private_subnet_route_table"></a> [create\_ec2\_private\_subnet\_route\_table](#input\_create\_ec2\_private\_subnet\_route\_table) | Controls if separate route table for EC2 private subnets should be created. Default: `false` | `bool` | `false` | no |
 | <a name="input_create_ec2_private_subnets"></a> [create\_ec2\_private\_subnets](#input\_create\_ec2\_private\_subnets) | Wheter or not to create EC2 private subnets. Default: `true` | `bool` | `true` | no |
 | <a name="input_create_ec2_public_subnet_route_table"></a> [create\_ec2\_public\_subnet\_route\_table](#input\_create\_ec2\_public\_subnet\_route\_table) | Controls if separate route table for EC2 public subnets should be created. Default: `false` | `bool` | `false` | no |
 | <a name="input_create_ec2_public_subnets"></a> [create\_ec2\_public\_subnets](#input\_create\_ec2\_public\_subnets) | Wheter or not to create EC2 public subnets. Default: `true` | `bool` | `true` | no |
 | <a name="input_create_ecs_subnet_route_table"></a> [create\_ecs\_subnet\_route\_table](#input\_create\_ecs\_subnet\_route\_table) | Controls if separate route table for ECS subnets should be created. Default: `false` | `bool` | `false` | no |
 | <a name="input_create_ecs_subnets"></a> [create\_ecs\_subnets](#input\_create\_ecs\_subnets) | Wheter or not to create ECS subnets. Default: `false` | `bool` | `false` | no |
-| <a name="input_create_egress_only_igw"></a> [create\_egress\_only\_igw](#input\_create\_egress\_only\_igw) | Controls if an Egress Only Internet Gateway is created and its related routes | `bool` | `true` | no |
+| <a name="input_create_egress_only_igw"></a> [create\_egress\_only\_igw](#input\_create\_egress\_only\_igw) | Controls if an Egress Only Internet Gateway is created | `bool` | `true` | no |
 | <a name="input_create_eks_subnet_route_table"></a> [create\_eks\_subnet\_route\_table](#input\_create\_eks\_subnet\_route\_table) | Controls if separate route table for EKS subnets should be created. Default: `false` | `bool` | `false` | no |
 | <a name="input_create_eks_subnets"></a> [create\_eks\_subnets](#input\_create\_eks\_subnets) | Wheter or not to create EKS subnets. Default: `false` | `bool` | `false` | no |
 | <a name="input_create_igw"></a> [create\_igw](#input\_create\_igw) | Controls if an Internet Gateway is created for public subnets and the related routes that connect them | `bool` | `true` | no |
@@ -261,15 +274,18 @@ This module aims to pre-define a set of subnets for a VPC. It's definitely not p
 | <a name="input_eks_subnet_tags"></a> [eks\_subnet\_tags](#input\_eks\_subnet\_tags) | Additional tags for the EKS subnets | `map(string)` | `{}` | no |
 | <a name="input_eks_subnet_tags_per_az"></a> [eks\_subnet\_tags\_per\_az](#input\_eks\_subnet\_tags\_per\_az) | Additional tags for the EKS subnets where the primary key is the AZ | `map(map(string))` | `{}` | no |
 | <a name="input_enable_dhcp_options"></a> [enable\_dhcp\_options](#input\_enable\_dhcp\_options) | Should be true if you want to specify a DHCP options set with a custom domain name, DNS servers, NTP servers, netbios servers, and/or netbios server type | `bool` | `false` | no |
+| <a name="input_enable_dns64"></a> [enable\_dns64](#input\_enable\_dns64) | Indicates whether DNS queries made to the Amazon-provided DNS Resolver in this subnet should return synthetic IPv6 addresses for IPv4-only destinations. Default: `true` | `bool` | `true` | no |
 | <a name="input_enable_dns_hostnames"></a> [enable\_dns\_hostnames](#input\_enable\_dns\_hostnames) | Should be true to enable DNS hostnames in the VPC | `bool` | `true` | no |
 | <a name="input_enable_dns_support"></a> [enable\_dns\_support](#input\_enable\_dns\_support) | Should be true to enable DNS support in the VPC | `bool` | `true` | no |
+| <a name="input_enable_ipv6"></a> [enable\_ipv6](#input\_enable\_ipv6) | Requests an Amazon-provided IPv6 CIDR block with a /56 prefix length for the VPC. You cannot specify the range of IP addresses, or the size of the CIDR block | `bool` | `false` | no |
 | <a name="input_enable_nat_gateway"></a> [enable\_nat\_gateway](#input\_enable\_nat\_gateway) | Should be true if you want to provision NAT Gateways for each of your private networks. Default: `true` | `bool` | `true` | no |
 | <a name="input_enable_network_address_usage_metrics"></a> [enable\_network\_address\_usage\_metrics](#input\_enable\_network\_address\_usage\_metrics) | Determines whether network address usage metrics are enabled for the VPC | `bool` | `null` | no |
+| <a name="input_enable_resource_name_dns_aaaa_record_on_launch"></a> [enable\_resource\_name\_dns\_aaaa\_record\_on\_launch](#input\_enable\_resource\_name\_dns\_aaaa\_record\_on\_launch) | Indicates whether to respond to DNS queries for instance hostnames with DNS AAAA records. Default: `true` | `bool` | `true` | no |
 | <a name="input_external_nat_ip_ids"></a> [external\_nat\_ip\_ids](#input\_external\_nat\_ip\_ids) | List of EIP IDs to be assigned to the NAT Gateways (used in combination with reuse\_nat\_ips) | `list(string)` | `[]` | no |
 | <a name="input_external_nat_ips"></a> [external\_nat\_ips](#input\_external\_nat\_ips) | List of EIPs to be used for `nat_public_ips` output (used in combination with reuse\_nat\_ips and external\_nat\_ip\_ids) | `list(string)` | `[]` | no |
 | <a name="input_igw_tags"></a> [igw\_tags](#input\_igw\_tags) | Additional tags for the internet gateway | `map(string)` | `{}` | no |
 | <a name="input_instance_tenancy"></a> [instance\_tenancy](#input\_instance\_tenancy) | A tenancy option for instances launched into the VPC | `string` | `"default"` | no |
-| <a name="input_ipv6_cidr"></a> [ipv6\_cidr](#input\_ipv6\_cidr) | (Optional) IPv6 CIDR block to request from an IPAM Pool. Can be set explicitly or derived from IPAM using `ipv6_netmask_length` | `string` | `null` | no |
+| <a name="input_ipv6_native"></a> [ipv6\_native](#input\_ipv6\_native) | Indicates whether to create an IPv6-only subnet. Default: `false` | `bool` | `false` | no |
 | <a name="input_lb_external_acl_tags"></a> [lb\_external\_acl\_tags](#input\_lb\_external\_acl\_tags) | Additional tags for the LB public subnets network ACL | `map(string)` | `{}` | no |
 | <a name="input_lb_external_dedicated_network_acl"></a> [lb\_external\_dedicated\_network\_acl](#input\_lb\_external\_dedicated\_network\_acl) | Whether to use dedicated network ACL (not default) and custom rules for LB public subnets. Default: `true` | `bool` | `true` | no |
 | <a name="input_lb_external_inbound_acl_rules"></a> [lb\_external\_inbound\_acl\_rules](#input\_lb\_external\_inbound\_acl\_rules) | LB public subnets inbound network ACLs | `list(map(string))` | <pre>[<br>  {<br>    "cidr_block": "0.0.0.0/0",<br>    "from_port": 0,<br>    "protocol": "-1",<br>    "rule_action": "allow",<br>    "rule_number": 100,<br>    "to_port": 0<br>  }<br>]</pre> | no |
@@ -363,6 +379,10 @@ This module aims to pre-define a set of subnets for a VPC. It's definitely not p
 | <a name="output_others_private_subnet_arns"></a> [others\_private\_subnet\_arns](#output\_others\_private\_subnet\_arns) | List of ARNs of other private subnets |
 | <a name="output_others_private_subnets"></a> [others\_private\_subnets](#output\_others\_private\_subnets) | List of IDs of other private subnets |
 | <a name="output_others_private_subnets_cidr_blocks"></a> [others\_private\_subnets\_cidr\_blocks](#output\_others\_private\_subnets\_cidr\_blocks) | List of cidr\_blocks of other private subnets |
+| <a name="output_others_public_route_table_ids"></a> [others\_public\_route\_table\_ids](#output\_others\_public\_route\_table\_ids) | List of IDs of others public route tables |
+| <a name="output_others_public_subnet_arns"></a> [others\_public\_subnet\_arns](#output\_others\_public\_subnet\_arns) | List of ARNs of other public subnets |
+| <a name="output_others_public_subnets"></a> [others\_public\_subnets](#output\_others\_public\_subnets) | List of IDs of other public subnets |
+| <a name="output_others_public_subnets_cidr_blocks"></a> [others\_public\_subnets\_cidr\_blocks](#output\_others\_public\_subnets\_cidr\_blocks) | List of cidr\_blocks of other public subnets |
 | <a name="output_private_route_table_ids"></a> [private\_route\_table\_ids](#output\_private\_route\_table\_ids) | Private route tables associated with this VPC |
 | <a name="output_public_route_table_ids"></a> [public\_route\_table\_ids](#output\_public\_route\_table\_ids) | Public route tables associated with this VPC |
 | <a name="output_vpc_arn"></a> [vpc\_arn](#output\_vpc\_arn) | The ARN of the VPC |
