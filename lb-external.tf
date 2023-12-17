@@ -68,6 +68,18 @@ resource "aws_route" "lb_external_internet_gateway" {
   }
 }
 
+resource "aws_route" "lb_external_ipv6_internet_gateway" {
+  count = local.create_lb_external_route_table && var.create_igw && (var.enable_ipv6 || var.ipv6_native) ? 1 : 0
+
+  route_table_id              = aws_route_table.lb_external[0].id
+  destination_ipv6_cidr_block = "::/0"
+  gateway_id                  = aws_internet_gateway.this[0].id
+
+  timeouts {
+    create = "5m"
+  }
+}
+
 module "lb_external_network_acl" {
   source = "./modules/network-acl"
 

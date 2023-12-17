@@ -67,6 +67,18 @@ resource "aws_route" "ec2_public_internet_gateway" {
   }
 }
 
+resource "aws_route" "ec2_public_ipv6_internet_gateway" {
+  count = local.create_ec2_public_route_table && var.create_igw && (var.enable_ipv6 || var.ipv6_native) ? 1 : 0
+
+  route_table_id              = aws_route_table.ec2_public[0].id
+  destination_ipv6_cidr_block = "::/0"
+  gateway_id                  = aws_internet_gateway.this[0].id
+
+  timeouts {
+    create = "5m"
+  }
+}
+
 module "ec2_public_network_acl" {
   source = "./modules/network-acl"
 
