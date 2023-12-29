@@ -25,5 +25,6 @@ locals {
     db             = [24, 25, 26]
     eks            = [27, 28, 29]
     connectivity   = [30, 31, 32]
+    spare          = [33]
   }
 }

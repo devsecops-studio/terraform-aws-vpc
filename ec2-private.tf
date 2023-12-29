@@ -16,7 +16,7 @@ resource "aws_subnet" "ec2_private" {
   map_public_ip_on_launch                        = !var.ipv6_native ? false : null
   private_dns_hostname_type_on_launch            = !var.ipv6_native ? var.private_dns_hostname_type_on_launch : "resource-name"
 
-  assign_ipv6_address_on_creation = var.enable_ipv6 && var.ipv6_native ? true : false
+  assign_ipv6_address_on_creation = var.enable_ipv6 ? true : false
   enable_dns64                    = var.enable_ipv6 && var.enable_dns64
   ipv6_cidr_block                 = var.enable_ipv6 ? cidrsubnet(aws_vpc.this[0].ipv6_cidr_block, 8, local.ipv6_prefixes.ec2_private[count.index]) : null
   ipv6_native                     = var.enable_ipv6 && var.ipv6_native

@@ -15,7 +15,7 @@ resource "aws_subnet" "others_public" {
   enable_resource_name_dns_aaaa_record_on_launch = var.enable_ipv6 && var.enable_resource_name_dns_aaaa_record_on_launch
   private_dns_hostname_type_on_launch            = !var.ipv6_native ? var.private_dns_hostname_type_on_launch : "resource-name"
 
-  assign_ipv6_address_on_creation = var.enable_ipv6 && var.ipv6_native ? true : false
+  assign_ipv6_address_on_creation = var.enable_ipv6 ? true : false
   enable_dns64                    = var.enable_ipv6 && var.enable_dns64
   ipv6_cidr_block                 = var.enable_ipv6 ? cidrsubnet(aws_vpc.this[0].ipv6_cidr_block, 8, local.ipv6_prefixes.others_public[count.index]) : null
   ipv6_native                     = var.enable_ipv6 && var.ipv6_native
@@ -55,11 +55,23 @@ resource "aws_route_table_association" "others_public" {
 }
 
 resource "aws_route" "others_public_internet_gateway" {
-  count = local.create_others_public_route_table && var.create_igw ? 1 : 0
+  count = local.create_others_public_route_table && !var.ipv6_native && var.create_igw ? 1 : 0
 
   route_table_id         = aws_route_table.others_public[0].id
   destination_cidr_block = "0.0.0.0/0"
   gateway_id             = aws_internet_gateway.this[0].id
+
+  timeouts {
+    create = "5m"
+  }
+}
+
+resource "aws_route" "others_public_ipv6_internet_gateway" {
+  count = local.create_others_public_route_table && var.create_igw && (var.enable_ipv6 || var.ipv6_native) ? 1 : 0
+
+  route_table_id              = aws_route_table.others_public[0].id
+  destination_ipv6_cidr_block = "::/0"
+  gateway_id                  = aws_internet_gateway.this[0].id
 
   timeouts {
     create = "5m"

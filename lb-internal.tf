@@ -15,7 +15,7 @@ resource "aws_subnet" "lb_internal" {
   enable_resource_name_dns_aaaa_record_on_launch = var.enable_ipv6 && var.enable_resource_name_dns_aaaa_record_on_launch
   private_dns_hostname_type_on_launch            = !var.ipv6_native ? var.private_dns_hostname_type_on_launch : "resource-name"
 
-  assign_ipv6_address_on_creation = var.enable_ipv6 && var.ipv6_native ? true : false
+  assign_ipv6_address_on_creation = var.enable_ipv6 ? true : false
   enable_dns64                    = var.enable_ipv6 && var.enable_dns64
   ipv6_cidr_block                 = var.enable_ipv6 ? cidrsubnet(aws_vpc.this[0].ipv6_cidr_block, 8, local.ipv6_prefixes.lb_internal[count.index]) : null
   ipv6_native                     = var.enable_ipv6 && var.ipv6_native
@@ -36,7 +36,7 @@ resource "aws_subnet" "lb_internal" {
 }
 
 resource "aws_route_table" "lb_internal" {
-  count = local.create_lb_internal_route_table ?  1 : 0
+  count = local.create_lb_internal_route_table ? 1 : 0
 
   vpc_id = local.vpc_id
 
