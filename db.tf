@@ -15,7 +15,7 @@ resource "aws_subnet" "db" {
   enable_resource_name_dns_aaaa_record_on_launch = var.enable_ipv6 && var.enable_resource_name_dns_aaaa_record_on_launch
   private_dns_hostname_type_on_launch            = !var.ipv6_native ? var.private_dns_hostname_type_on_launch : "resource-name"
 
-  assign_ipv6_address_on_creation = var.enable_ipv6 && var.ipv6_native ? true : false
+  assign_ipv6_address_on_creation = var.enable_ipv6 ? true : false
   enable_dns64                    = var.enable_ipv6 && var.enable_dns64
   ipv6_cidr_block                 = var.enable_ipv6 ? cidrsubnet(aws_vpc.this[0].ipv6_cidr_block, 8, local.ipv6_prefixes.db[count.index]) : null
   ipv6_native                     = var.enable_ipv6 && var.ipv6_native
@@ -108,7 +108,7 @@ resource "aws_route_table_association" "db" {
 }
 
 resource "aws_route" "db_internet_gateway" {
-  count = local.create_db_route_table && var.create_igw && var.create_db_internet_gateway_route && !var.create_db_nat_gateway_route ? 1 : 0
+  count = local.create_db_route_table && !var.ipv6_native && var.create_igw && var.create_db_internet_gateway_route && !var.create_db_nat_gateway_route ? 1 : 0
 
   route_table_id         = aws_route_table.db[0].id
   destination_cidr_block = "0.0.0.0/0"

@@ -443,6 +443,30 @@ output "connectivity_route_table_ids" {
 # }
 
 # ################################################################################
+# # Spare Subnet
+# ################################################################################
+
+output "spare_subnet" {
+  description = "List of IDs of spare subnet"
+  value       = aws_subnet.spare_subnet[*].id
+}
+
+output "spare_subnet_arns" {
+  description = "List of ARNs of spare subnet"
+  value       = aws_subnet.spare_subnet[*].arn
+}
+
+output "spare_subnet_cidr_blocks" {
+  description = "List of cidr_blocks of spare subnet"
+  value       = compact(aws_subnet.spare_subnet[*].cidr_block)
+}
+
+output "spare_subnet_route_table_ids" {
+  description = "List of IDs of spare subnet route tables"
+  value       = try(aws_route_table.spare_subnet[*].id, null)
+}
+
+# ################################################################################
 # # NAT Gateway
 # ################################################################################
 

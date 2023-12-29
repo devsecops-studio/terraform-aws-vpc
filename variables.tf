@@ -181,6 +181,12 @@ variable "lb_external_route_table_tags" {
   default     = {}
 }
 
+variable "lb_external_ipv6_native" {
+  description = "Indicates whether to create an IPv6-only subnet for Load balancer public. Default: `false`"
+  type        = bool
+  default     = false
+}
+
 ################################################################################
 # LB External Network ACLs
 ################################################################################
@@ -203,12 +209,12 @@ variable "lb_external_inbound_acl_rules" {
       cidr_block  = "0.0.0.0/0"
     },
     {
-      rule_number = 101
-      rule_action = "allow"
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      ipv6_cidr_block  = "::/0"
+      rule_number     = 101
+      rule_action     = "allow"
+      from_port       = 0
+      to_port         = 0
+      protocol        = "-1"
+      ipv6_cidr_block = "::/0"
     },
   ]
 }
@@ -226,12 +232,12 @@ variable "lb_external_outbound_acl_rules" {
       cidr_block  = "0.0.0.0/0"
     },
     {
-      rule_number = 101
-      rule_action = "allow"
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      ipv6_cidr_block  = "::/0"
+      rule_number     = 101
+      rule_action     = "allow"
+      from_port       = 0
+      to_port         = 0
+      protocol        = "-1"
+      ipv6_cidr_block = "::/0"
     },
   ]
 }
@@ -315,12 +321,12 @@ variable "lb_internal_inbound_acl_rules" {
       cidr_block  = "0.0.0.0/0"
     },
     {
-      rule_number = 101
-      rule_action = "allow"
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      ipv6_cidr_block  = "::/0"
+      rule_number     = 101
+      rule_action     = "allow"
+      from_port       = 0
+      to_port         = 0
+      protocol        = "-1"
+      ipv6_cidr_block = "::/0"
     },
   ]
 }
@@ -338,12 +344,12 @@ variable "lb_internal_outbound_acl_rules" {
       cidr_block  = "0.0.0.0/0"
     },
     {
-      rule_number = 101
-      rule_action = "allow"
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      ipv6_cidr_block  = "::/0"
+      rule_number     = 101
+      rule_action     = "allow"
+      from_port       = 0
+      to_port         = 0
+      protocol        = "-1"
+      ipv6_cidr_block = "::/0"
     },
   ]
 }
@@ -361,6 +367,12 @@ variable "create_ec2_public_subnets" {
   description = "Wheter or not to create EC2 public subnets. Default: `true`"
   type        = bool
   default     = true
+}
+
+variable "ec2_public_ipv6_native" {
+  description = "Indicates whether to create an IPv6-only subnet for EC2 public. Default: `false`"
+  type        = bool
+  default     = false
 }
 
 variable "ec2_public_subnet_enable_resource_name_dns_a_record_on_launch" {
@@ -427,12 +439,12 @@ variable "ec2_public_inbound_acl_rules" {
       cidr_block  = "0.0.0.0/0"
     },
     {
-      rule_number = 101
-      rule_action = "allow"
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      ipv6_cidr_block  = "::/0"
+      rule_number     = 101
+      rule_action     = "allow"
+      from_port       = 0
+      to_port         = 0
+      protocol        = "-1"
+      ipv6_cidr_block = "::/0"
     },
   ]
 }
@@ -450,12 +462,12 @@ variable "ec2_public_outbound_acl_rules" {
       cidr_block  = "0.0.0.0/0"
     },
     {
-      rule_number = 101
-      rule_action = "allow"
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      ipv6_cidr_block  = "::/0"
+      rule_number     = 101
+      rule_action     = "allow"
+      from_port       = 0
+      to_port         = 0
+      protocol        = "-1"
+      ipv6_cidr_block = "::/0"
     },
   ]
 }
@@ -533,12 +545,12 @@ variable "ec2_private_inbound_acl_rules" {
       cidr_block  = "0.0.0.0/0"
     },
     {
-      rule_number = 101
-      rule_action = "allow"
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      ipv6_cidr_block  = "::/0"
+      rule_number     = 101
+      rule_action     = "allow"
+      from_port       = 0
+      to_port         = 0
+      protocol        = "-1"
+      ipv6_cidr_block = "::/0"
     },
   ]
 }
@@ -556,12 +568,12 @@ variable "ec2_private_outbound_acl_rules" {
       cidr_block  = "0.0.0.0/0"
     },
     {
-      rule_number = 101
-      rule_action = "allow"
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      ipv6_cidr_block  = "::/0"
+      rule_number     = 101
+      rule_action     = "allow"
+      from_port       = 0
+      to_port         = 0
+      protocol        = "-1"
+      ipv6_cidr_block = "::/0"
     },
   ]
 }
@@ -639,12 +651,12 @@ variable "others_public_inbound_acl_rules" {
       cidr_block  = "0.0.0.0/0"
     },
     {
-      rule_number = 101
-      rule_action = "allow"
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      ipv6_cidr_block  = "::/0"
+      rule_number     = 101
+      rule_action     = "allow"
+      from_port       = 0
+      to_port         = 0
+      protocol        = "-1"
+      ipv6_cidr_block = "::/0"
     },
   ]
 }
@@ -662,12 +674,12 @@ variable "others_public_outbound_acl_rules" {
       cidr_block  = "0.0.0.0/0"
     },
     {
-      rule_number = 101
-      rule_action = "allow"
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      ipv6_cidr_block  = "::/0"
+      rule_number     = 101
+      rule_action     = "allow"
+      from_port       = 0
+      to_port         = 0
+      protocol        = "-1"
+      ipv6_cidr_block = "::/0"
     },
   ]
 }
@@ -745,12 +757,12 @@ variable "others_private_inbound_acl_rules" {
       cidr_block  = "0.0.0.0/0"
     },
     {
-      rule_number = 101
-      rule_action = "allow"
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      ipv6_cidr_block  = "::/0"
+      rule_number     = 101
+      rule_action     = "allow"
+      from_port       = 0
+      to_port         = 0
+      protocol        = "-1"
+      ipv6_cidr_block = "::/0"
     },
   ]
 }
@@ -768,12 +780,12 @@ variable "others_private_outbound_acl_rules" {
       cidr_block  = "0.0.0.0/0"
     },
     {
-      rule_number = 101
-      rule_action = "allow"
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      ipv6_cidr_block  = "::/0"
+      rule_number     = 101
+      rule_action     = "allow"
+      from_port       = 0
+      to_port         = 0
+      protocol        = "-1"
+      ipv6_cidr_block = "::/0"
     },
   ]
 }
@@ -851,12 +863,12 @@ variable "ecs_inbound_acl_rules" {
       cidr_block  = "0.0.0.0/0"
     },
     {
-      rule_number = 101
-      rule_action = "allow"
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      ipv6_cidr_block  = "::/0"
+      rule_number     = 101
+      rule_action     = "allow"
+      from_port       = 0
+      to_port         = 0
+      protocol        = "-1"
+      ipv6_cidr_block = "::/0"
     },
   ]
 }
@@ -874,12 +886,12 @@ variable "ecs_outbound_acl_rules" {
       cidr_block  = "0.0.0.0/0"
     },
     {
-      rule_number = 101
-      rule_action = "allow"
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      ipv6_cidr_block  = "::/0"
+      rule_number     = 101
+      rule_action     = "allow"
+      from_port       = 0
+      to_port         = 0
+      protocol        = "-1"
+      ipv6_cidr_block = "::/0"
     },
   ]
 }
@@ -993,12 +1005,12 @@ variable "db_inbound_acl_rules" {
       cidr_block  = "0.0.0.0/0"
     },
     {
-      rule_number = 101
-      rule_action = "allow"
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      ipv6_cidr_block  = "::/0"
+      rule_number     = 101
+      rule_action     = "allow"
+      from_port       = 0
+      to_port         = 0
+      protocol        = "-1"
+      ipv6_cidr_block = "::/0"
     },
   ]
 }
@@ -1016,12 +1028,12 @@ variable "db_outbound_acl_rules" {
       cidr_block  = "0.0.0.0/0"
     },
     {
-      rule_number = 101
-      rule_action = "allow"
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      ipv6_cidr_block  = "::/0"
+      rule_number     = 101
+      rule_action     = "allow"
+      from_port       = 0
+      to_port         = 0
+      protocol        = "-1"
+      ipv6_cidr_block = "::/0"
     },
   ]
 }
@@ -1135,12 +1147,12 @@ variable "cache_inbound_acl_rules" {
       cidr_block  = "0.0.0.0/0"
     },
     {
-      rule_number = 101
-      rule_action = "allow"
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      ipv6_cidr_block  = "::/0"
+      rule_number     = 101
+      rule_action     = "allow"
+      from_port       = 0
+      to_port         = 0
+      protocol        = "-1"
+      ipv6_cidr_block = "::/0"
     },
   ]
 }
@@ -1158,12 +1170,12 @@ variable "cache_outbound_acl_rules" {
       cidr_block  = "0.0.0.0/0"
     },
     {
-      rule_number = 101
-      rule_action = "allow"
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      ipv6_cidr_block  = "::/0"
+      rule_number     = 101
+      rule_action     = "allow"
+      from_port       = 0
+      to_port         = 0
+      protocol        = "-1"
+      ipv6_cidr_block = "::/0"
     },
   ]
 }
@@ -1241,12 +1253,12 @@ variable "eks_inbound_acl_rules" {
       cidr_block  = "0.0.0.0/0"
     },
     {
-      rule_number = 101
-      rule_action = "allow"
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      ipv6_cidr_block  = "::/0"
+      rule_number     = 101
+      rule_action     = "allow"
+      from_port       = 0
+      to_port         = 0
+      protocol        = "-1"
+      ipv6_cidr_block = "::/0"
     },
   ]
 }
@@ -1264,12 +1276,12 @@ variable "eks_outbound_acl_rules" {
       cidr_block  = "0.0.0.0/0"
     },
     {
-      rule_number = 101
-      rule_action = "allow"
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      ipv6_cidr_block  = "::/0"
+      rule_number     = 101
+      rule_action     = "allow"
+      from_port       = 0
+      to_port         = 0
+      protocol        = "-1"
+      ipv6_cidr_block = "::/0"
     },
   ]
 }
@@ -1365,12 +1377,12 @@ variable "connectivity_inbound_acl_rules" {
       cidr_block  = "0.0.0.0/0"
     },
     {
-      rule_number = 101
-      rule_action = "allow"
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      ipv6_cidr_block  = "::/0"
+      rule_number     = 101
+      rule_action     = "allow"
+      from_port       = 0
+      to_port         = 0
+      protocol        = "-1"
+      ipv6_cidr_block = "::/0"
     },
   ]
 }
@@ -1388,12 +1400,12 @@ variable "connectivity_outbound_acl_rules" {
       cidr_block  = "0.0.0.0/0"
     },
     {
-      rule_number = 101
-      rule_action = "allow"
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      ipv6_cidr_block  = "::/0"
+      rule_number     = 101
+      rule_action     = "allow"
+      from_port       = 0
+      to_port         = 0
+      protocol        = "-1"
+      ipv6_cidr_block = "::/0"
     },
   ]
 }
@@ -1427,6 +1439,136 @@ variable "create_default_route_eigw" {
 
 variable "igw_tags" {
   description = "Additional tags for the internet gateway"
+  type        = map(string)
+  default     = {}
+}
+
+################################################################################
+# Spare Subnet
+################################################################################
+variable "create_spare_subnet" {
+  description = "Wheter or not to create spare subnet. Default: `false`"
+  type        = bool
+  default     = false
+}
+
+variable "spare_subnet_ipv6_native" {
+  description = "Indicates whether to create an IPv6-only subnet for spare subnet. Default: `false`"
+  type        = bool
+  default     = false
+}
+
+variable "spare_subnet_map_public_ip_on_launch" {
+  description = "Specify true to indicate that instances launched into the subnet should be assigned a public IP address. Default is `false`"
+  type        = bool
+  default     = false
+}
+
+variable "spare_subnet_enable_resource_name_dns_a_record_on_launch" {
+  description = "Indicates whether to respond to DNS queries for instance hostnames with DNS A records. Default: `false`"
+  type        = bool
+  default     = false
+}
+
+variable "spare_subnet_suffix" {
+  description = "Suffix to append to spare subnet name"
+  type        = string
+  default     = "spare"
+}
+
+variable "create_spare_subnet_route_table" {
+  description = "Controls if separate route table for spare subnet should be created. Default: `false`"
+  type        = bool
+  default     = false
+}
+
+variable "create_spare_subnet_egress_internet_gateway_route" {
+  description = "Controls if an egress internet gateway route for spare subnet access should be created"
+  type        = bool
+  default     = false
+}
+
+variable "create_spare_subnet_nat_gateway_route" {
+  description = "Controls if an NAT gateway route for spare subnet access should be created"
+  type        = bool
+  default     = false
+}
+
+variable "spare_subnet_tags" {
+  description = "Additional tags for spare subnet"
+  type        = map(string)
+  default     = {}
+}
+
+variable "spare_subnet_tags_per_az" {
+  description = "Additional tags for spare subnet where the primary key is the AZ"
+  type        = map(map(string))
+  default     = {}
+}
+
+variable "spare_subnet_route_table_tags" {
+  description = "Additional tags for spare subnet route tables"
+  type        = map(string)
+  default     = {}
+}
+
+################################################################################
+# Spare Network ACLs
+################################################################################
+variable "spare_subnet_dedicated_network_acl" {
+  description = "Whether to use dedicated network ACL (not default) and custom rules for spare subnet. Default: `true`"
+  type        = bool
+  default     = true
+}
+
+variable "spare_subnet_inbound_acl_rules" {
+  description = "spare subnet inbound network ACLs"
+  type        = list(map(string))
+  default = [
+    {
+      rule_number = 100
+      rule_action = "allow"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_block  = "0.0.0.0/0"
+    },
+    {
+      rule_number     = 101
+      rule_action     = "allow"
+      from_port       = 0
+      to_port         = 0
+      protocol        = "-1"
+      ipv6_cidr_block = "::/0"
+    },
+  ]
+}
+
+variable "spare_subnet_outbound_acl_rules" {
+  description = "spare subnet outbound network ACLs"
+  type        = list(map(string))
+  default = [
+    {
+      rule_number = 100
+      rule_action = "allow"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_block  = "0.0.0.0/0"
+    },
+    {
+      rule_number     = 101
+      rule_action     = "allow"
+      from_port       = 0
+      to_port         = 0
+      protocol        = "-1"
+      ipv6_cidr_block = "::/0"
+    },
+  ]
+}
+
+variable "spare_subnet_acl_tags" {
+  description = "Additional tags for spare subnet network ACL"
   type        = map(string)
   default     = {}
 }
