@@ -177,7 +177,7 @@ resource "aws_egress_only_internet_gateway" "this" {
 }
 
 resource "aws_route" "egress_internet_gateway" {
-  count = local.create_vpc && var.enable_ipv6 && (var.create_egress_only_igw || var.ipv6_native) && local.max_subnet_length > 0 && var.create_default_route_eigw ? 1 : 0
+  count = local.create_vpc && var.enable_ipv6 && (var.create_egress_only_igw || var.ipv6_native) && local.max_subnet_length > 0 && var.create_default_route_eigw ? length(aws_route_table.private[*].id) : 0
 
   route_table_id              = element(aws_route_table.private[*].id, count.index)
   destination_ipv6_cidr_block = "::/0"
