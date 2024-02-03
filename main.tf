@@ -128,6 +128,19 @@ resource "aws_route" "public_ipv6" {
   }
 }
 
+resource "aws_route" "public_nat64" {
+  count = local.create_vpc && (var.enable_ipv6 || var.ipv6_native) && var.enable_nat_gateway ? 1 : 0
+
+  route_table_id              = aws_route_table.public[0].id
+  destination_ipv6_cidr_block = "64:ff9b::/96"
+  nat_gateway_id              = element(aws_nat_gateway.this[*].id, count.index)
+
+  timeouts {
+    create = "5m"
+  }
+}
+
+
 ################################################################################
 # Private Route Table
 ################################################################################
