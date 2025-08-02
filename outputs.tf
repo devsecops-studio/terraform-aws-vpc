@@ -323,60 +323,60 @@ output "connectivity_route_table_ids" {
 # # Database Subnets
 # ################################################################################
 
-# output "database_subnets" {
-#   description = "List of IDs of database subnets"
-#   value       = aws_subnet.database[*].id
-# }
+output "db_subnets" {
+  description = "List of IDs of database subnets"
+  value       = aws_subnet.db[*].id
+}
 
-# output "database_subnet_arns" {
-#   description = "List of ARNs of database subnets"
-#   value       = aws_subnet.database[*].arn
-# }
+output "db_subnet_arns" {
+  description = "List of ARNs of database subnets"
+  value       = aws_subnet.db[*].arn
+}
 
-# output "database_subnets_cidr_blocks" {
-#   description = "List of cidr_blocks of database subnets"
-#   value       = compact(aws_subnet.database[*].cidr_block)
-# }
+output "db_subnets_cidr_blocks" {
+  description = "List of cidr_blocks of database subnets"
+  value       = compact(aws_subnet.db[*].cidr_block)
+}
 
-# output "database_subnets_ipv6_cidr_blocks" {
-#   description = "List of IPv6 cidr_blocks of database subnets in an IPv6 enabled VPC"
-#   value       = compact(aws_subnet.database[*].ipv6_cidr_block)
-# }
+output "db_subnets_ipv6_cidr_blocks" {
+  description = "List of IPv6 cidr_blocks of database subnets in an IPv6 enabled VPC"
+  value       = compact(aws_subnet.db[*].ipv6_cidr_block)
+}
 
-# output "database_subnet_group" {
-#   description = "ID of database subnet group"
-#   value       = try(aws_db_subnet_group.database[0].id, null)
-# }
+output "db_subnet_group" {
+  description = "ID of database subnet group"
+  value       = try(aws_db_subnet_group.db[0].id, null)
+}
 
-# output "database_subnet_group_name" {
-#   description = "Name of database subnet group"
-#   value       = try(aws_db_subnet_group.database[0].name, null)
-# }
+output "db_subnet_group_name" {
+  description = "Name of database subnet group"
+  value       = try(aws_db_subnet_group.db[0].name, null)
+}
 
-# output "database_route_table_ids" {
-#   description = "List of IDs of database route tables"
-#   value       = try(coalescelist(aws_route_table.database[*].id, local.private_route_table_ids), [])
-# }
+output "db_route_table_ids" {
+  description = "List of IDs of database route tables"
+  value       = try(coalescelist(aws_route_table.db[*].id, local.private_route_table_ids), [])
+}
 
-# output "database_internet_gateway_route_id" {
-#   description = "ID of the database internet gateway route"
-#   value       = try(aws_route.database_internet_gateway[0].id, null)
-# }
+output "db_internet_gateway_route_id" {
+  description = "ID of the database internet gateway route"
+  value       = try(aws_route.db_internet_gateway[0].id, null)
+}
 
-# output "database_nat_gateway_route_ids" {
-#   description = "List of IDs of the database nat gateway route"
-#   value       = aws_route.database_nat_gateway[*].id
-# }
+output "db_nat_gateway_route_ids" {
+  description = "List of IDs of the database nat gateway route"
+  value       = aws_route.db_nat_gateway[*].id
+}
 
 # output "database_ipv6_egress_route_id" {
 #   description = "ID of the database IPv6 egress route"
 #   value       = try(aws_route.database_ipv6_egress[0].id, null)
 # }
 
-# output "database_route_table_association_ids" {
-#   description = "List of IDs of the database route table association"
-#   value       = aws_route_table_association.database[*].id
-# }
+output "db_route_table_association_ids" {
+  description = "List of IDs of the database route table association"
+  value       = aws_route_table_association.db[*].id
+}
 
 # output "database_network_acl_id" {
 #   description = "ID of the database network ACL"
