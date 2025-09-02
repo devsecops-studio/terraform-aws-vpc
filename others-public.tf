@@ -40,6 +40,7 @@ resource "aws_route_table" "others_public" {
   tags = merge(
     { "Name" = "${var.name}-${var.others_public_subnet_suffix}" },
     var.tags,
+    var.route_table_tags,
     var.others_public_route_table_tags,
   )
 }

@@ -46,6 +46,7 @@ resource "aws_route_table" "ecs" {
       )
     },
     var.tags,
+    var.route_table_tags,
     var.ecs_route_table_tags,
   )
 }

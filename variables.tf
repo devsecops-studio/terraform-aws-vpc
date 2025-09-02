@@ -85,6 +85,12 @@ variable "vpc_tags" {
   default     = {}
 }
 
+variable "route_table_tags" {
+  description = "Additional tags for all route tables"
+  type        = map(string)
+  default     = {}
+}
+
 variable "tags" {
   description = "A map of tags to add to all resources"
   type        = map(string)

@@ -45,6 +45,7 @@ resource "aws_route_table" "others_private" {
       )
     },
     var.tags,
+    var.route_table_tags,
     var.others_private_route_table_tags,
   )
 }

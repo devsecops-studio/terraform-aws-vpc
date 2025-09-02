@@ -43,6 +43,7 @@ resource "aws_route_table" "lb_external" {
       "Name" = "${var.name}-${var.lb_external_subnet_suffix}"
     },
     var.tags,
+    var.route_table_tags,
     var.lb_external_route_table_tags,
   )
 }

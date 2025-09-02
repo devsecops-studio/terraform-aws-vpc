@@ -63,6 +63,7 @@ resource "aws_route_table" "db" {
       )
     },
     var.tags,
+    var.route_table_tags,
     var.db_route_table_tags,
   )
 }

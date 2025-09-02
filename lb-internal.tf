@@ -48,6 +48,7 @@ resource "aws_route_table" "lb_internal" {
       )
     },
     var.tags,
+    var.route_table_tags,
     var.lb_internal_route_table_tags,
   )
 }
