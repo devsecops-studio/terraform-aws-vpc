@@ -42,6 +42,7 @@ resource "aws_route_table" "spare_subnet" {
   tags = merge(
     { "Name" = "${var.name}-${var.spare_subnet_suffix}" },
     var.tags,
+    var.route_table_tags,
     var.spare_subnet_route_table_tags,
   )
 }

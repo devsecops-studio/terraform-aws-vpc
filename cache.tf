@@ -61,6 +61,7 @@ resource "aws_route_table" "cache" {
       )
     },
     var.tags,
+    var.route_table_tags,
     var.cache_route_table_tags,
   )
 }

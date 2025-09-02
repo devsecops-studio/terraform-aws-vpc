@@ -43,6 +43,7 @@ resource "aws_route_table" "ec2_public" {
   tags = merge(
     { "Name" = "${var.name}-${var.ec2_public_subnet_suffix}" },
     var.tags,
+    var.route_table_tags,
     var.ec2_public_route_table_tags,
   )
 }

@@ -49,6 +49,7 @@ resource "aws_route_table" "connectivity" {
       )
     },
     var.tags,
+    var.route_table_tags,
     var.connectivity_route_table_tags,
   )
 }

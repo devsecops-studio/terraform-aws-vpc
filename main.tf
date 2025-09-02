@@ -101,6 +101,7 @@ resource "aws_route_table" "public" {
   tags = merge(
     { "Name" = "${var.name}-public" },
     var.tags,
+    var.route_table_tags,
   )
 }
 
@@ -158,6 +159,7 @@ resource "aws_route_table" "private" {
       )
     },
     var.tags,
+    var.route_table_tags,
   )
 }
 
